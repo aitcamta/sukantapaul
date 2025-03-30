@@ -19,6 +19,7 @@ export function Button({
   duration,
   className,
   onClick,
+  disabled,
   ...otherProps
 }) {
   return (
@@ -32,6 +33,7 @@ export function Button({
       }}
       {...otherProps}
       onClick={onClick}
+      disabled={disabled ? disabled : false}
     >
       <div
         className="absolute inset-0"

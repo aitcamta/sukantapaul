@@ -16,8 +16,7 @@ const page = () => {
   });
   const [buttonDisabled, setButtonDisabled] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
-  const [showVerifyBtn, setShowVerifyBtn] = useState(false);
-  const [verifyToken, setVerifyToken] = useState("");
+
   const onLogin = async () => {
     try {
       setLoading(true);
@@ -30,8 +29,7 @@ const page = () => {
         router.push("/profile");
       } else {
         toast.error(response.data.message);
-        setShowVerifyBtn(true);
-        setVerifyToken(response.data.verifyToken);
+  
       }
     } catch (error) {
       console.log("Login failed", error.message);
@@ -40,9 +38,16 @@ const page = () => {
       setLoading(false);
     }
   };
-
+  function ValidateEmail(mail) {
+    //eslint-disable-next-line
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(mail)) {
+      return true;
+    }
+    // alert("You have entered an invalid email address!");
+    return false;
+  }
   useEffect(() => {
-    if (user.email.length > 0 && user.password.length > 0) {
+    if (ValidateEmail(user.email) && user.password.length > 0) {
       setButtonDisabled(false);
     } else {
       setButtonDisabled(true);
@@ -55,7 +60,7 @@ const page = () => {
   }, []);
 
   return (
-    <div >
+    <div suppressHydrationWarning>
       {loading ? (
         <Loader />
       ) : (
@@ -88,29 +93,19 @@ const page = () => {
             borderRadius="1.75rem"
             className="bg-white dark:bg-black text-black dark:text-white border-neutral-200 dark:border-slate-800"
             onClick={onLogin}
+            disabled={buttonDisabled}
           >
             Login here
           </Button>
-          {/* <div className="mt-4">
-        <Button
-          borderRadius="1.75rem"
-          className="bg-white dark:bg-black text-black dark:text-white border-neutral-200 dark:border-slate-800"
-          onClick={() => router.push("/signup")}
-        >
-          Visit Signup page
-        </Button>
-      </div> */}
-          {showVerifyBtn && (
-            <div className="mt-4">
-              <Button
-                borderRadius="1.75rem"
-                className="bg-white dark:bg-black text-black dark:text-white border-neutral-200 dark:border-slate-800"
-                onClick={() => router.push(`/verifyemail?token=${verifyToken}`)}
-              >
-                Verify your email
-              </Button>
-            </div>
-          )}
+          <div className="mt-4">
+            <Button
+              borderRadius="1.75rem"
+              className="bg-white dark:bg-black text-black dark:text-white border-neutral-200 dark:border-slate-800"
+              onClick={() => router.push("/signup")}
+            >
+              Visit Signup page
+            </Button>
+          </div>
         </div>
       )}
     </div>

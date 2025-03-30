@@ -4,7 +4,7 @@ import { useGlobalContext } from "../../context/Store";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import DataTable, { createTheme } from "react-data-table-component";
-import CustomButton from "../../components/ui/CustomButton";
+import Loader from "../../components/design/Loader";
 import { toast } from "react-toastify";
 import { Button } from "../../components/ui/moving-border";
 createTheme(
@@ -34,7 +34,8 @@ createTheme(
 );
 export default function RegUsers() {
   const router = useRouter();
-  const { USER } = useGlobalContext();
+  const { USER, userState, setUserState } = useGlobalContext();
+  const [loader, setLoader] = useState(false);
   const [data, setData] = useState([]);
   const [userData, setUserData] = useState([]);
   const [search, setSearch] = useState("");
@@ -83,10 +84,19 @@ export default function RegUsers() {
     },
   ];
   const getUsers = async () => {
-    const res = await axios.post("/api/getUsers");
-    setData(res.data.data);
-    setUserData(res.data.data);
-    console.log(res.data.data);
+    try {
+      setLoader(true);
+      const res = await axios.post("/api/getUsers");
+      if (res.data.success) {
+        setData(res.data.data);
+        setUserData(res.data.data);
+        setUserState(res.data.data);
+        setLoader(false);
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+      console.log(error);
+    }
   };
   const changeAccess = async (id, isAdmin) => {
     const res = await axios.post("/api/changeAccess", {
@@ -98,45 +108,64 @@ export default function RegUsers() {
     } else {
       toast.error("Something went wrong");
     }
-    getUsers();
+    const modifiedData = data.map((item) => {
+      if (item.id === id) {
+        item.isAdmin = !isAdmin;
+      }
+      return item;
+    });
+    setData(modifiedData);
+    setUserData(modifiedData);
   };
   useEffect(() => {
     USER.isAdmin === false && router.push("/");
-    data.length === 0 && getUsers();
+    if (userState.length === 0) {
+      getUsers();
+    } else {
+      setUserData(userState);
+      setData(userState);
+    }
+
     //eslint-disable-next-line
   }, []);
   return (
     <div className="flex flex-col items-center  w-full py-2 my-20">
       <hr />
       <h3 className="h3 ">Registered Users</h3>
-      <div className="my-3 w-full p-10">
-        <DataTable
-          theme="solarized"
-          columns={columns}
-          data={userData}
-          pagination
-          highlightOnHover
-          fixedHeader
-          subHeader
-          subHeaderComponent={
-            <input
-              type="text"
-              placeholder="Search"
-              className="w-25 form-control rounded"
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                const filteredData = data.filter((item) =>
-                  item.name.toLowerCase().includes(e.target.value.toLowerCase())
-                );
-                setUserData(filteredData);
-              }}
-            />
-          }
-          subHeaderAlign="right"
-          className="bg-black text-white rounded-lg "
-        />
-      </div>
+      {loader ? (
+        <Loader />
+      ) : (
+        <div className="my-3 w-full p-10">
+          <DataTable
+            theme="solarized"
+            columns={columns}
+            data={userData}
+            pagination
+            highlightOnHover
+            fixedHeader
+            subHeader
+            subHeaderComponent={
+              <input
+                type="text"
+                placeholder="Search"
+                className="w-25 form-control rounded"
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                  const filteredData = data.filter((item) =>
+                    item.name
+                      .toLowerCase()
+                      .includes(e.target.value.toLowerCase())
+                  );
+                  setUserData(filteredData);
+                }}
+              />
+            }
+            subHeaderAlign="right"
+            className="bg-black text-white rounded-lg "
+          />
+        </div>
+      )}
     </div>
   );
 }

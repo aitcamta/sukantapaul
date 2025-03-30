@@ -23,23 +23,16 @@ export default function ProfilePage() {
 
   const getUserDetails = async () => {
     const res = await axios.post("/api/me");
-    setData(res.data.data._id);
+    setData(res.data.data.id);
     setUSER(res.data.data);
-    setUserData({
-      id: res.data.data._id,
-      name: res.data.data.name,
-      phone: res.data.data.phone,
-      email: res.data.data.email,
-      gp: res.data.data.gp,
-      isAdmin: res.data.data.isAdmin,
-    });
+    setUserData(res.data.data);
   };
   useEffect(() => {
     if (!userLogged) {
       getUserDetails();
     } else {
       setUserData(USER);
-      setData(USER._id);
+      setData(USER);
     }
   }, []);
   return (
@@ -48,20 +41,20 @@ export default function ProfilePage() {
       <h2 className="h2 ">
         {data === "nothing"
           ? "Nothing"
-          : userData.isAdmin
-          ? `Hello Admin ${userData.name}!`
-          : `Hello ${userData.name}!`}
+          : userData?.isAdmin
+          ? `Hello Admin ${userData?.name}!`
+          : `Hello ${userData?.name}!`}
       </h2>
 
       <hr />
       {data !== "nothing" ? (
         <div className="flex flex-col items-center justify-center mt-4">
           <h2 className="h2">User Details</h2>
-          <p className="text-lg">{`ID: ${userData.id}`}</p>
-          <p className="text-lg">{`Name: ${userData.name}`}</p>
-          <p className="text-lg">{`Phone: ${userData.phone}`}</p>
-          <p className="text-lg">{`Email: ${userData.email}`}</p>
-          <p className="text-lg">{`GP: ${userData.gp}`}</p>
+          <p className="text-lg">{`ID: ${userData?.id}`}</p>
+          <p className="text-lg">{`Name: ${userData?.name}`}</p>
+          <p className="text-lg">{`Phone: ${userData?.phone}`}</p>
+          <p className="text-lg">{`Email: ${userData?.email}`}</p>
+          <p className="text-lg">{`GP: ${userData?.gp}`}</p>
           <Link href="/editProfile">
             <Button>Update Profile</Button>
           </Link>
@@ -69,7 +62,7 @@ export default function ProfilePage() {
       ) : (
         <Button onClick={getUserDetails}>Get Details</Button>
       )}
-      {userData.isAdmin && (
+      {userData?.isAdmin && (
         <Button onClick={() => router.push("/regUsers")}>View Users</Button>
       )}
       <hr />

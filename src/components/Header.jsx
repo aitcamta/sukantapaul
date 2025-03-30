@@ -52,7 +52,8 @@ const Header = () => {
       title: userLogged ? "Log Out" : "Sign in",
       url: userLogged ? "/logout" : "/login",
       onlyMobile: true,
-    },{
+    },
+    {
       id: "6",
       title: "Description",
       url: "#description",
@@ -71,12 +72,16 @@ const Header = () => {
 
   const getUserDetails = async () => {
     const res = await axios.post("/api/me");
-    const userDetails = res.data.data._id;
-    console.log("userDetails", userDetails);
-    if (userDetails) {
-      setUserLogged(true);
-      setUSER(res.data.data);
-      console.log("userLogged");
+    if (res.data.success) {
+      const userDetails = res.data.data._id;
+      if (userDetails) {
+        setUserLogged(true);
+        setUSER(res.data.data);
+        console.log("userLogged");
+      } else {
+        setUserLogged(false);
+        console.log("userNotLogged");
+      }
     } else {
       setUserLogged(false);
       console.log("userNotLogged");

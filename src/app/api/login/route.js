@@ -9,7 +9,6 @@ export const POST = async (request) => {
   try {
     const { email, password } = await request.json();
     const user = await User.findOne({ email });
-
     if (!user) {
       return new Response(
         JSON.stringify({
@@ -43,6 +42,7 @@ export const POST = async (request) => {
 
       const response = new Response(
         JSON.stringify({
+          user,
           message: "Logged In Success",
           success: true,
         }),

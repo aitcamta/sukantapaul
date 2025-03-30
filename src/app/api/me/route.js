@@ -9,25 +9,32 @@ export const POST = async (request) => {
     // Extract data from token
     const userId = await getDataFromToken(request);
 
-    // Ensure userId is a valid ObjectId
-    const mongoose = require("mongoose");
-    const validUserId = new mongoose.Types.ObjectId(userId);
+    if (userId) {
+      // Ensure userId is a valid ObjectId
+      const mongoose = require("mongoose");
+      const validUserId = new mongoose.Types.ObjectId(userId);
 
-    const user = await User.findOne({ _id: validUserId }).select("-password");
+      const user = await User.findOne({ _id: validUserId }).select("-password");
 
-    if (!user) {
-      // Return response if no user is found
+      if (!user) {
+        // Return response if no user is found
+        return new Response(
+          JSON.stringify({ message: "User not found", success: false }),
+          { status: 404, headers: { "Content-Type": "application/json" } }
+        );
+      }
+
+      // Return response if user is found
       return new Response(
-        JSON.stringify({ message: "User not found", success: false }),
-        { status: 404, headers: { "Content-Type": "application/json" } }
+        JSON.stringify({ message: "User Found", data: user, success: true }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
+      );
+    } else {
+      return new Response(
+        JSON.stringify({ message: "User Not Found", success: false }),
+        { status: 200, headers: { "Content-Type": "application/json" } }
       );
     }
-
-    // Return response if user is found
-    return new Response(
-      JSON.stringify({ message: "User Found", data: user }),
-      { status: 200, headers: { "Content-Type": "application/json" } }
-    );
   } catch (error) {
     console.error(error);
     return new Response(

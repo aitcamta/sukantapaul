@@ -12,24 +12,26 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning={true}>
       <body className={``}>
-      <GlobalContextProvider>
-        <Header />
-        <div suppressHydrationWarning>{children}</div>
-        <ToastContainer
-          position="top-right"
-          autoClose={1500}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss={false}
-          draggable
-          pauseOnHover
-          theme="light"
-        />
-      </GlobalContextProvider>
+        <div suppressHydrationWarning={true}>
+          <GlobalContextProvider>
+            <Header />
+            {children}
+            <ToastContainer
+              position="top-right"
+              autoClose={1500}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss={false}
+              draggable
+              pauseOnHover
+              theme="light"
+            />
+          </GlobalContextProvider>
+        </div>
       </body>
     </html>
   );

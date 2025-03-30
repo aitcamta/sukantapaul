@@ -10,6 +10,8 @@ const GlobalContext = createContext({
   setStateArray: () => [],
   stateObject: {},
   setStateObject: () => {},
+  userState:[],
+  setUserState: () => [],
 });
 export const GlobalContextProvider = ({ children }) => {
   const [USER, setUSER] = useState({
@@ -23,6 +25,7 @@ export const GlobalContextProvider = ({ children }) => {
   const [userLogged, setUserLogged] = useState(false);
   const [stateArray, setStateArray] = useState([]);
   const [stateObject, setStateObject] = useState({});
+  const [userState, setUserState] = useState([]);
   return (
     <GlobalContext.Provider
       value={{
@@ -34,6 +37,8 @@ export const GlobalContextProvider = ({ children }) => {
         setStateArray,
         stateObject,
         setStateObject,
+        userState,
+        setUserState,
       }}
     >
       {children}

@@ -5,6 +5,7 @@ import { v4 as uuid } from "uuid";
 import { useRouter } from "next/navigation";
 import { Button } from "../../components/ui/moving-border";
 import { toast } from "react-toastify";
+import Loader from "../../components/design/Loader";
 const page = () => {
   const id = uuid();
   const [user, setUser] = useState({
@@ -23,9 +24,14 @@ const page = () => {
     try {
       setLoading(true);
       const response = await axios.post("/api/signup", user);
-      console.log("Sign Up Success", response.data);
-      toast.success("Sign Up Success", response.data);
-      router.push("/login");
+      if (response.data.success) {
+        setLoading(false);
+        toast.success("Sign Up Success");
+        router.push("/login");
+      } else {
+        toast.error("Something Went wrong");
+        setLoading(false);
+      }
     } catch (error) {
       console.log("SignUp error: " + error);
       toast.error(error.message);
@@ -52,7 +58,6 @@ const page = () => {
     } else {
       setButtonDisabled(true);
     }
-
   }, [user]);
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 mt-40 lg:mt-20 md:mt-20">
@@ -141,6 +146,7 @@ const page = () => {
           Go to Login
         </Button>
       </div>
+      {loading && <Loader />}
     </div>
   );
 };
