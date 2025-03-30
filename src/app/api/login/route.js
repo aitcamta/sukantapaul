@@ -1,21 +1,20 @@
 import dbConnect from "../../../lib/dbConnect";
 import User from "../../../models/user";
-import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 dbConnect();
-export async function POST(request: NextRequest) {
+export async function POST(request) {
   try {
     const reqBody = await request.json();
-    const { email, password }: any = reqBody;
+    const { email, password } = reqBody;
     const user = await User.findOne({ email });
     if (!user) {
-      const response = NextResponse.json(
-        {
+      const response = new Response(
+        JSON.stringify({
           message: "Please Verify Your Email or Password",
           success: false,
-        },
+        }),
         { status: 200 }
       );
       return response;
@@ -24,11 +23,11 @@ export async function POST(request: NextRequest) {
     if (verifiedUsser) {
       const validPassword = await bcrypt.compare(password, user.password);
       if (!validPassword) {
-        const response = NextResponse.json(
-          {
+        const response = new Response(
+          JSON.stringify({
             message: "Please Verify Your Email or Password",
             success: false,
-          },
+          }),
           { status: 200 }
         );
         return response;
@@ -39,14 +38,14 @@ export async function POST(request: NextRequest) {
         username: user.username,
         email: user.email,
       };
-      const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET!, {
+      const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET, {
         expiresIn: "1d",
       });
-      const response = NextResponse.json(
-        {
+      const response = new Response(
+        JSON.stringify({
           message: "Logged In Success",
           success: true,
-        },
+        }),
         { status: 200 }
       );
       response.cookies.set("token", token, {
@@ -55,21 +54,21 @@ export async function POST(request: NextRequest) {
       });
       return response;
     } else {
-      const response = NextResponse.json(
-        {
+      const response = new Response(
+        JSON.stringify({
           message: "Please Verify Your Email or Password",
           success: false,
-        },
+        }),
         { status: 200 }
       );
       return response;
     }
-  } catch (error: any) {
-    const response = NextResponse.json(
-      {
+  } catch (error) {
+    const response = new Response(
+      JSON.stringify({
         message: error.message,
         success: false,
-      },
+      }),
       { status: 200 }
     );
     return response;

@@ -16,7 +16,7 @@ const page = () => {
       await axios.post("/api/verifyemail", { token });
       setVerified(true);
       router.push("/login");
-    } catch (error: any) {
+    } catch (error) {
       setError(true);
       console.log(error.reponse.data);
     }
