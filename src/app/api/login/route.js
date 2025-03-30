@@ -4,33 +4,32 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 dbConnect();
-export async function POST(request) {
+
+export const POST = async (request) => {
   try {
-    const reqBody = await request.json();
-    const { email, password } = reqBody;
+    const { email, password } = await request.json();
     const user = await User.findOne({ email });
+
     if (!user) {
-      const response = new Response(
+      return new Response(
         JSON.stringify({
           message: "Please Verify Your Email or Password",
           success: false,
         }),
-        { status: 200 }
+        { status: 200, headers: { "Content-Type": "application/json" } }
       );
-      return response;
     }
-    const verifiedUsser = user.isVerified;
-    if (verifiedUsser) {
+
+    if (user.isVerified) {
       const validPassword = await bcrypt.compare(password, user.password);
       if (!validPassword) {
-        const response = new Response(
+        return new Response(
           JSON.stringify({
             message: "Please Verify Your Email or Password",
             success: false,
           }),
-          { status: 200 }
+          { status: 200, headers: { "Content-Type": "application/json" } }
         );
-        return response;
       }
 
       const tokenData = {
@@ -38,39 +37,38 @@ export async function POST(request) {
         username: user.username,
         email: user.email,
       };
-      const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET, {
+      const token = jwt.sign(tokenData, process.env.TOKEN_SECRET, {
         expiresIn: "1d",
       });
+
       const response = new Response(
         JSON.stringify({
           message: "Logged In Success",
           success: true,
         }),
-        { status: 200 }
+        { status: 200, headers: { "Content-Type": "application/json" } }
       );
-      response.cookies.set("token", token, {
-        httpOnly: true,
-        secure: true,
-      });
+      response.headers.set(
+        "Set-Cookie",
+        `token=${token}; HttpOnly; Secure; Path=/; Max-Age=86400`
+      );
       return response;
     } else {
-      const response = new Response(
+      return new Response(
         JSON.stringify({
           message: "Please Verify Your Email or Password",
           success: false,
         }),
-        { status: 200 }
+        { status: 200, headers: { "Content-Type": "application/json" } }
       );
-      return response;
     }
   } catch (error) {
-    const response = new Response(
+    return new Response(
       JSON.stringify({
         message: error.message,
         success: false,
       }),
-      { status: 200 }
+      { status: 200, headers: { "Content-Type": "application/json" } }
     );
-    return response;
   }
-}
+};

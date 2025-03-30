@@ -4,14 +4,14 @@ import { getDataFromToken } from "../../../helpers/getDataFromToken";
 
 dbConnect();
 
-export async function POST(request) {
+export const POST = async (request) => {
   try {
     // Extract data from token
     const userId = await getDataFromToken(request);
 
     // Ensure userId is a valid ObjectId
     const mongoose = require("mongoose");
-    const validUserId = mongoose.Types.ObjectId(userId);
+    const validUserId = new mongoose.Types.ObjectId(userId);
 
     const user = await User.findOne({ _id: validUserId }).select("-password");
 
@@ -19,26 +19,20 @@ export async function POST(request) {
       // Return response if no user is found
       return new Response(
         JSON.stringify({ message: "User not found", success: false }),
-        { status: 404 }
+        { status: 404, headers: { "Content-Type": "application/json" } }
       );
     }
 
     // Return response if user is found
     return new Response(
-      JSON.stringify({
-        message: "User Found",
-        data: user,
-      }),
-      { status: 200 }
+      JSON.stringify({ message: "User Found", data: user }),
+      { status: 200, headers: { "Content-Type": "application/json" } }
     );
   } catch (error) {
-    console.log(error);
-    new Response(
-      JSON.stringify({
-        message: error.message,
-        success: false,
-      }),
-      { status: 500 } // Changed status to 500 for errors
+    console.error(error);
+    return new Response(
+      JSON.stringify({ message: error.message, success: false }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
-}
+};
