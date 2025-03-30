@@ -1,5 +1,5 @@
 import dbConnect from "../../../lib/dbConnect";
-import Member from "../../../models/member";
+import Photos from "../../../models/photos";
 import { NextResponse } from "next/server";
 
 dbConnect();
@@ -10,7 +10,7 @@ export async function POST(request) {
     const { date, id, fileName, fileType, addedBy, url, description, title } =
       reqBody;
 
-    const newPhoto = new Member({
+    const newPhoto = new Photos({
       date,
       id,
       fileName,

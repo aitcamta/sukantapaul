@@ -11,7 +11,7 @@ let photoSchema = new mongoose.Schema({
   title: String,
 });
 
-const photos =
+const Photos =
   mongoose.models.photos || mongoose.model("photos", photoSchema, "photos");
 
-export default photos;
+export default Photos;
