@@ -1,24 +1,63 @@
 "use client";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 
-import { brainwave } from "../assets";
-import { navigation } from "../constants";
+import logo from "../assets/logo.png";
+
 import Button from "./Button";
 import MenuSvg from "../assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
-
+import { useGlobalContext } from "../context/Store";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import axios from "axios";
 
 const Header = () => {
   const router = useRouter();
-
+  const { setUSER, userLogged, setUserLogged } = useGlobalContext();
   // Access the pathname and query params
   const pathname = router;
 
   const [openNavigation, setOpenNavigation] = useState(false);
+  const navigation = [
+    {
+      id: "0",
+      title: "Gallery",
+      url: "#gallery",
+    },
+    {
+      id: "1",
+      title: "Pricing",
+      url: "#pricing",
+    },
+    {
+      id: "2",
+      title: "How to use",
+      url: "#how-to-use",
+    },
+    {
+      id: "3",
+      title: "Roadmap",
+      url: "#roadmap",
+    },
+    {
+      id: "4",
+      title: userLogged ? "Dashboard" : "New account",
+      url: userLogged ? "/profile" : "/signup",
+      onlyMobile: true,
+    },
+    {
+      id: "5",
+      title: userLogged ? "Log Out" : "Sign in",
+      url: userLogged ? "/logout" : "/login",
+      onlyMobile: true,
+    },{
+      id: "3",
+      title: "Description",
+      url: "#description",
+    },
+  ];
 
   const toggleNavigation = () => {
     if (openNavigation) {
@@ -30,12 +69,32 @@ const Header = () => {
     }
   };
 
+  const getUserDetails = async () => {
+    const res = await axios.post("/api/me");
+    const userDetails = res.data.data._id;
+    console.log("userDetails", userDetails);
+    if (userDetails) {
+      setUserLogged(true);
+      setUSER(res.data.data);
+      console.log("userLogged");
+    } else {
+      setUserLogged(false);
+      console.log("userNotLogged");
+    }
+  };
+
   const handleClick = () => {
     if (!openNavigation) return;
 
     enablePageScroll();
     setOpenNavigation(false);
   };
+  useEffect(() => {
+    if (!userLogged) {
+      getUserDetails();
+    }
+    //eslint-disable-next-line
+  }, []);
 
   return (
     <div
@@ -45,7 +104,7 @@ const Header = () => {
     >
       <div className="flex items-center px-5 lg:px-7.5 xl:px-10 max-lg:py-4">
         <Link className="block w-[12rem] xl:mr-8" href="/">
-          <Image src={brainwave} width={190} height={40} alt="Brainwave" />
+          <Image src={logo} width={190} height={40} alt="Brainwave" />
         </Link>
 
         <nav
@@ -62,9 +121,7 @@ const Header = () => {
                 className={`block relative font-code text-2xl uppercase text-n-1 transition-colors hover:text-color-1 ${
                   item.onlyMobile ? "lg:hidden" : ""
                 } px-6 py-6 md:py-8 lg:-mr-0.25 lg:text-xs lg:font-semibold ${
-                  item.url === pathname
-                    ? "z-2 lg:text-n-1"
-                    : "lg:text-n-1/50"
+                  item.url === pathname ? "z-2 lg:text-n-1" : "lg:text-n-1/50"
                 } lg:leading-5 lg:hover:text-n-1 xl:px-12`}
               >
                 {item.title}
@@ -75,15 +132,32 @@ const Header = () => {
           <HamburgerMenu />
         </nav>
 
-        <a
-          href="#signup"
-          className="button hidden mr-8 text-n-1/50 transition-colors hover:text-n-1 lg:block"
-        >
-          New account
-        </a>
-        <Button className="hidden lg:flex" href="#login">
-          Sign in
-        </Button>
+        {userLogged ? (
+          <>
+            <Link href="/profile">
+              <Button className="hidden lg:block m-2" px="px-3">
+                Dashboard
+              </Button>
+            </Link>
+            <Link href="/logout">
+              <Button className="hidden lg:block m-2" px="px-3">
+                Log Out
+              </Button>
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link
+              href="/signup"
+              className="button hidden mr-8 text-n-1/50 transition-colors hover:text-n-1 lg:block"
+            >
+              New account
+            </Link>
+            <Button className="hidden lg:flex" href="/login">
+              Sign in
+            </Button>
+          </>
+        )}
 
         <Button
           className="ml-auto lg:hidden"
