@@ -7,7 +7,8 @@ import Button from "./Button";
 import MenuSvg from "../assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
 import { useGlobalContext } from "../context/Store";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,51 +16,62 @@ import axios from "axios";
 
 const Header = () => {
   const router = useRouter();
+  const routePath = usePathname();
   const { setUSER, userLogged, setUserLogged } = useGlobalContext();
   // Access the pathname and query params
   const pathname = router;
-
   const [openNavigation, setOpenNavigation] = useState(false);
-  const navigation = [
+  const [navMenu, setNavMenu] = useState([]);
+  const homePageNavigation = [
     {
-      id: "0",
+      title: "Home",
+      url: "/",
+    },
+    {
       title: "Gallery",
       url: "#gallery",
     },
     {
-      id: "1",
       title: "Pricing",
       url: "#pricing",
     },
     {
-      id: "2",
       title: "How to use",
       url: "#how-to-use",
     },
     {
-      id: "3",
       title: "Roadmap",
       url: "#roadmap",
     },
     {
-      id: "4",
       title: userLogged ? "Dashboard" : "New account",
       url: userLogged ? "/profile" : "/signup",
       onlyMobile: true,
     },
     {
-      id: "5",
       title: userLogged ? "Log Out" : "Sign in",
       url: userLogged ? "/logout" : "/login",
       onlyMobile: true,
     },
     {
-      id: "6",
       title: "Description",
       url: "#description",
     },
   ];
-
+  const subPageNavigation = [
+    {
+      title: "Home",
+      url: "/",
+    },
+    {
+      title: userLogged ? "Dashboard" : "New account",
+      url: userLogged ? "/profile" : "/signup",
+    },
+    {
+      title: userLogged ? "Log Out" : "Sign in",
+      url: userLogged ? "/logout" : "/login",
+    },
+  ];
   const toggleNavigation = () => {
     if (openNavigation) {
       setOpenNavigation(false);
@@ -98,8 +110,19 @@ const Header = () => {
     if (!userLogged) {
       getUserDetails();
     }
+
     //eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (routePath === "/") {
+      setNavMenu(homePageNavigation);
+    } else {
+      setNavMenu(subPageNavigation);
+    }
+
+    //eslint-disable-next-line
+  }, [routePath]);
 
   return (
     <div
@@ -118,9 +141,9 @@ const Header = () => {
           } fixed top-[5rem] left-0 right-0 bottom-0 bg-n-8 lg:static lg:flex lg:mx-auto lg:bg-transparent`}
         >
           <div className="relative z-2 flex flex-col items-center justify-center m-auto lg:flex-row">
-            {navigation.map((item) => (
+            {navMenu.map((item, index) => (
               <Link
-                key={item.id}
+                key={index}
                 href={item.url}
                 onClick={handleClick}
                 className={`block relative font-code text-2xl uppercase text-n-1 transition-colors hover:text-color-1 ${

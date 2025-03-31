@@ -15,27 +15,26 @@ const page = () => {
     password: "",
   });
   const [buttonDisabled, setButtonDisabled] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
 
   const onLogin = async () => {
     try {
       setLoading(true);
       const response = await axios.post("/api/login", user);
       console.log("Login status", response.data);
-      if (response.data.message === "Logged In Success") {
+      if (response.data.success) {
         toast.success("Login success");
         setUSER(response.data.user);
         setUserLogged(true);
         router.push("/profile");
       } else {
+        setLoading(false);
         toast.error(response.data.message);
-  
       }
     } catch (error) {
+      setLoading(false);
       console.log("Login failed", error.message);
       toast.error(error.message);
-    } finally {
-      setLoading(false);
     }
   };
   function ValidateEmail(mail) {
@@ -70,7 +69,7 @@ const page = () => {
 
           <label htmlFor="email">email</label>
           <input
-            className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 text-black"
+            className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 text-white"
             id="email"
             type="email"
             value={user.email}
@@ -80,7 +79,7 @@ const page = () => {
           />
           <label htmlFor="password">password</label>
           <input
-            className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 text-black"
+            className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 text-white"
             id="password"
             type="password"
             value={user.password}
@@ -91,7 +90,7 @@ const page = () => {
 
           <Button
             borderRadius="1.75rem"
-            className="bg-white dark:bg-black text-black dark:text-white border-neutral-200 dark:border-slate-800"
+            className="dark:bg-black text-white dark:text-white border-neutral-200 dark:border-slate-800"
             onClick={onLogin}
             disabled={buttonDisabled}
           >
@@ -100,7 +99,16 @@ const page = () => {
           <div className="mt-4">
             <Button
               borderRadius="1.75rem"
-              className="bg-white dark:bg-black text-black dark:text-white border-neutral-200 dark:border-slate-800"
+              className="dark:bg-black text-white dark:text-white border-neutral-200 dark:border-slate-800"
+              onClick={() => router.push("/forgotPassword")}
+            >
+              Forgot Password
+            </Button>
+          </div>
+          <div className="mt-4">
+            <Button
+              borderRadius="1.75rem"
+              className="dark:bg-black text-white dark:text-white border-neutral-200 dark:border-slate-800"
               onClick={() => router.push("/signup")}
             >
               Visit Signup page

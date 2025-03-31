@@ -48,7 +48,7 @@ export default function ProfilePage() {
 
       <hr />
       {data !== "nothing" ? (
-        <div className="flex flex-col items-center justify-center mt-4">
+        <div className="flex flex-col items-center justify-center mt-4 text-center">
           <h2 className="h2">User Details</h2>
           <p className="text-lg">{`ID: ${userData?.id}`}</p>
           <p className="text-lg">{`Name: ${userData?.name}`}</p>
@@ -57,6 +57,9 @@ export default function ProfilePage() {
           <p className="text-lg">{`GP: ${userData?.gp}`}</p>
           <Link href="/editProfile">
             <Button>Update Profile</Button>
+          </Link>
+          <Link href="/changePassword">
+            <Button>Change Password</Button>
           </Link>
         </div>
       ) : (

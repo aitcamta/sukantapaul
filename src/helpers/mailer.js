@@ -63,7 +63,7 @@ export const sendEmail = async ({ email, emailType, userId, name }) => {
     }
     const mailData = {
       from: {
-        name: `WBTPTA AMTA WEST`,
+        name: `MLA SUKANTA PAUL'S WEBSITE`,
         address: mail,
       },
       replyTo: email,

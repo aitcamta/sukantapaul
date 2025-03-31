@@ -29,10 +29,11 @@ const page = () => {
         toast.success("Sign Up Success");
         router.push("/login");
       } else {
-        toast.error("Something Went wrong");
+        toast.error(response.data.message);
         setLoading(false);
       }
     } catch (error) {
+      setLoading(false);
       console.log("SignUp error: " + error);
       toast.error(error.message);
     }
@@ -126,7 +127,7 @@ const page = () => {
 
       <Button
         borderRadius="1.75rem"
-        className="bg-white dark:bg-black text-white dark:text-white border-neutral-200 dark:border-slate-800"
+        className="dark:bg-black text-white dark:text-white border-neutral-200 dark:border-slate-800"
         onClick={() => {
           if (buttonDisabled) {
             toast.error("Please Enter Correct Details");
@@ -140,7 +141,7 @@ const page = () => {
       <div className="mt-4">
         <Button
           borderRadius="1.75rem"
-          className="bg-white dark:bg-black text-white dark:text-white border-neutral-200 dark:border-slate-800"
+          className="dark:bg-black text-white dark:text-white border-neutral-200 dark:border-slate-800"
           onClick={() => router.push("/login")}
         >
           Go to Login

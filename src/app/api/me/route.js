@@ -24,11 +24,19 @@ export const POST = async (request) => {
         );
       }
 
-      // Return response if user is found
-      return new Response(
-        JSON.stringify({ message: "User Found", data: user, success: true }),
-        { status: 200, headers: { "Content-Type": "application/json" } }
-      );
+      if (user.isActive) {
+        // Return response if user is found
+        return new Response(
+          JSON.stringify({ message: "User Found", data: user, success: true }),
+          { status: 200, headers: { "Content-Type": "application/json" } }
+        );
+      } else {
+        // Return response if user is blocked
+        return new Response(
+          JSON.stringify({ message: "Account Blocked", success: false }),
+          { status: 403, headers: { "Content-Type": "application/json" } }
+        );
+      }
     } else {
       return new Response(
         JSON.stringify({ message: "User Not Found", success: false }),

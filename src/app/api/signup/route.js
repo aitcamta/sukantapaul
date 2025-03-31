@@ -47,8 +47,11 @@ export async function POST(request) {
       { status: 200 }
     );
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 500,
-    });
+    return new Response(
+      JSON.stringify({ message: error.message, success: false }),
+      {
+        status: 200,
+      }
+    );
   }
 }

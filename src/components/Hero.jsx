@@ -1,14 +1,12 @@
 "use client";
-import { curve, heroBackground, robot } from "../assets";
-import ImageGallery from "react-image-gallery";
+import { curve } from "../assets";
 import "react-image-gallery/styles/css/image-gallery.css";
 import Section from "./Section";
-import { BackgroundCircles, BottomLine, Gradient } from "./design/Hero";
+import { BottomLine } from "./design/Hero";
 
 import Image from "next/image";
 
 const Hero = () => {
-
   return (
     <Section
       className="pt-[12rem] -mt-[5.25rem]"
@@ -17,7 +15,7 @@ const Hero = () => {
       customPaddings
       id="hero"
     >
-      <div className="container relative" >
+      <div className="container relative">
         <div className="relative z-1 max-w-[62rem] mx-auto text-center mb-[3.875rem] md:mb-20 lg:mb-[6.25rem]">
           <h2 className="h2 mb-6 tiro">
             আমতা কেন্দ্রের বিধায়ক {` `}
@@ -33,10 +31,8 @@ const Hero = () => {
             </span>
           </h2>
           <h2 className="h2 my-3 tiro">-এর ওয়েবসাইটে আপনাকে স্বাগতম</h2>
+          
         </div>
-        
-
-        {/* <CompanyLogos className="hidden relative z-10 mt-20 lg:block" /> */}
       </div>
 
       <BottomLine />

@@ -61,6 +61,12 @@ export default function RegUsers() {
       center: +true,
     },
     {
+      name: "Phone",
+      selector: (row) => row.phone,
+      wrap: true,
+      center: +true,
+    },
+    {
       name: "GP",
       selector: (row) => row.gp,
       sortable: true,
@@ -68,19 +74,43 @@ export default function RegUsers() {
       center: +true,
     },
     {
-      name: "UserType",
+      name: "Access",
       selector: (row) => (row.isAdmin ? "Admin" : "User"),
       wrap: true,
       center: +true,
     },
     {
-      name: "Make / Remove Admin",
+      name: "🔧 Admin",
       cell: (row) => (
         <Button onClick={() => changeAccess(row.id, row.isAdmin)}>
           {row.isAdmin ? "Remove Admin" : "Make Admin"}
         </Button>
       ),
       wrap: true,
+      center: +true,
+    },
+    {
+      name: "Block / Unblock",
+      cell: (row) => (
+        <Button
+          className={row.isActive ? "bg-red-500" : "bg-green-500"}
+          onClick={() => blockUser(row.id, row.isActive)}
+        >
+          {row.isActive ? "Block" : "UnBlock"}
+        </Button>
+      ),
+      wrap: true,
+      center: +true,
+    },
+    {
+      name: "Delete",
+      cell: (row) => (
+        <Button className={"bg-red-500"} onClick={() => delUser(row.id)}>
+          Delete
+        </Button>
+      ),
+      wrap: true,
+      center: +true,
     },
   ];
   const getUsers = async () => {
@@ -116,6 +146,41 @@ export default function RegUsers() {
     });
     setData(modifiedData);
     setUserData(modifiedData);
+    setUserState(modifiedData);
+  };
+  const blockUser = async (id, isActive) => {
+    const res = await axios.post("/api/blockUser", {
+      id,
+      isActive: !isActive,
+    });
+    if (res.data.success) {
+      toast.success(res.data.message);
+    } else {
+      toast.error("Something went wrong");
+    }
+    const modifiedData = data.map((item) => {
+      if (item.id === id) {
+        item.isActive = !isActive;
+      }
+      return item;
+    });
+    setData(modifiedData);
+    setUserData(modifiedData);
+    setUserState(modifiedData);
+  };
+  const delUser = async (id) => {
+    const res = await axios.post("/api/delUser", {
+      id,
+    });
+    if (res.data.success) {
+      toast.success(res.data.message);
+    } else {
+      toast.error("Something went wrong");
+    }
+    const modifiedData = data.filter((item) => item.id !== id);
+    setData(modifiedData);
+    setUserData(modifiedData);
+    setUserState(modifiedData);
   };
   useEffect(() => {
     USER.isAdmin === false && router.push("/");
@@ -129,7 +194,7 @@ export default function RegUsers() {
     //eslint-disable-next-line
   }, []);
   return (
-    <div className="flex flex-col items-center  w-full py-2 my-20">
+    <div className="flex flex-col items-center  w-full py-2 my-28">
       <hr />
       <h3 className="h3 ">Registered Users</h3>
       {loader ? (

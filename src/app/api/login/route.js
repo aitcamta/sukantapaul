@@ -12,7 +12,7 @@ export const POST = async (request) => {
     if (!user) {
       return new Response(
         JSON.stringify({
-          message: "Please Verify Your Email or Password",
+          message: "Invalid Email or Password",
           success: false,
         }),
         { status: 200, headers: { "Content-Type": "application/json" } }
@@ -20,39 +20,49 @@ export const POST = async (request) => {
     }
 
     if (user.isVerified) {
-      const validPassword = await bcrypt.compare(password, user.password);
-      if (!validPassword) {
+      if (user.isActive) {
+        const validPassword = await bcrypt.compare(password, user.password);
+        if (!validPassword) {
+          return new Response(
+            JSON.stringify({
+              message: "Invalid Email or Password",
+              success: false,
+            }),
+            { status: 200, headers: { "Content-Type": "application/json" } }
+          );
+        }
+
+        const tokenData = {
+          id: user._id,
+          username: user.username,
+          email: user.email,
+        };
+        const token = jwt.sign(tokenData, process.env.TOKEN_SECRET, {
+          expiresIn: "1d",
+        });
+
+        const response = new Response(
+          JSON.stringify({
+            user,
+            message: "Logged In Success",
+            success: true,
+          }),
+          { status: 200, headers: { "Content-Type": "application/json" } }
+        );
+        response.headers.set(
+          "Set-Cookie",
+          `token=${token}; HttpOnly; Secure; Path=/; Max-Age=86400`
+        );
+        return response;
+      } else {
         return new Response(
           JSON.stringify({
-            message: "Please Verify Your Email or Password",
+            message: "Account Blocked",
             success: false,
           }),
           { status: 200, headers: { "Content-Type": "application/json" } }
         );
       }
-
-      const tokenData = {
-        id: user._id,
-        username: user.username,
-        email: user.email,
-      };
-      const token = jwt.sign(tokenData, process.env.TOKEN_SECRET, {
-        expiresIn: "1d",
-      });
-
-      const response = new Response(
-        JSON.stringify({
-          user,
-          message: "Logged In Success",
-          success: true,
-        }),
-        { status: 200, headers: { "Content-Type": "application/json" } }
-      );
-      response.headers.set(
-        "Set-Cookie",
-        `token=${token}; HttpOnly; Secure; Path=/; Max-Age=86400`
-      );
-      return response;
     } else {
       return new Response(
         JSON.stringify({
