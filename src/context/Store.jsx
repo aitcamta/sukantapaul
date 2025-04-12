@@ -1,6 +1,8 @@
 "use client";
 
 import React, { createContext, useContext, useState } from "react";
+
+import { FirebaseProvider } from "./FirbaseContext";
 const GlobalContext = createContext({
   userLogged: false,
   setUserLogged: () => false,
@@ -10,8 +12,10 @@ const GlobalContext = createContext({
   setStateArray: () => [],
   stateObject: {},
   setStateObject: () => {},
-  userState:[],
+  userState: [],
   setUserState: () => [],
+  slideState:[],
+  setSlideState: () => [],
 });
 export const GlobalContextProvider = ({ children }) => {
   const [USER, setUSER] = useState({
@@ -26,6 +30,7 @@ export const GlobalContextProvider = ({ children }) => {
   const [stateArray, setStateArray] = useState([]);
   const [stateObject, setStateObject] = useState({});
   const [userState, setUserState] = useState([]);
+  const [slideState, setSlideState] = useState([]);
   return (
     <GlobalContext.Provider
       value={{
@@ -39,9 +44,11 @@ export const GlobalContextProvider = ({ children }) => {
         setStateObject,
         userState,
         setUserState,
+        slideState,
+        setSlideState,
       }}
     >
-      {children}
+      <FirebaseProvider>{children}</FirebaseProvider>
     </GlobalContext.Provider>
   );
 };

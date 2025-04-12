@@ -326,3 +326,35 @@ export const socials = [
     url: "https://www.facebook.com/sukanta.k.paul.9",
   },
 ];
+export const ImageFolders = [
+  {
+    id: "0",
+    title: "Home Slider Images",
+    folderName: "homeSliderImages",
+  },
+  {
+    id: "1",
+    title: "About Us Images",
+    folderName: "aboutUsImages",
+  },
+  {
+    id: "2",
+    title: "Roadmap Images",
+    folderName: "roadmapImages",
+  },
+  {
+    id: "3",
+    title: "Benefits Images",
+    folderName: "benefitsImages",
+  },
+  {
+    id: "4",
+    title: "Galary Images",
+    folderName: "galaryimages",
+  },
+  {
+    id: "5",
+    title: "Other Images",
+    folderName: "otherimages",
+  },
+];

@@ -66,7 +66,14 @@ export default function ProfilePage() {
         <Button onClick={getUserDetails}>Get Details</Button>
       )}
       {userData?.isAdmin && (
-        <Button onClick={() => router.push("/regUsers")}>View Users</Button>
+        <div className="flex flex-col items-center justify-center mt-4 text-center">
+          <Button className="mb-3" onClick={() => router.push("/regUsers")}>
+            View Users
+          </Button>
+          <Button className="mb-3" onClick={() => router.push("/photoUpload")}>
+            Image Upload
+          </Button>
+        </div>
       )}
       <hr />
     </div>

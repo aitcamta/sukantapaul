@@ -84,11 +84,12 @@ const Header = () => {
 
   const getUserDetails = async () => {
     const res = await axios.post("/api/me");
-    if (res.data.success) {
-      const userDetails = res.data.data._id;
+    const userData = res.data
+    if (userData.success) {
+      const userDetails = userData.data._id;
       if (userDetails) {
         setUserLogged(true);
-        setUSER(res.data.data);
+        setUSER(userData.data);
         console.log("userLogged");
       } else {
         setUserLogged(false);
