@@ -96,7 +96,7 @@ export default function PhotoUpload() {
   });
   const [data, setData] = useState(false);
   const [datas, setDatas] = useState([]);
-  const [filteredData, setFilteredData] = useState([])
+  const [filteredData, setFilteredData] = useState([]);
   const [folder, setFolder] = useState("homeSliderImages");
 
   const columns = [
@@ -273,7 +273,7 @@ export default function PhotoUpload() {
                   uploadedBy: USER.name,
                 });
                 if (folder === "homeSliderImages") {
-                  setSlideState([
+                  const orderedData = [
                     ...slideState,
                     {
                       description: inputField.description,
@@ -283,7 +283,12 @@ export default function PhotoUpload() {
                       date: Date.now(),
                       uploadedBy: USER.name,
                     },
-                  ]);
+                  ].sort((a, b) => {
+                    if (a.date > b.date) return -1;
+                    if (a.date < b.date) return 1;
+                    return 0;
+                  });
+                  setSlideState(orderedData);
                 }
                 toast.success("Congrats! Image Uploaded Successfully!");
 
@@ -382,6 +387,11 @@ export default function PhotoUpload() {
                     x.fileName = `${docId}-${editFileName}`;
                     let y = slideState.filter((el) => el.id !== editField.id);
                     y = [...y, x];
+                    y = y.sort((a, b) => {
+                      if (a.date > b.date) return -1;
+                      if (a.date < b.date) return 1;
+                      return 0;
+                    });
                     setSlideState(y);
 
                     toast.success(
@@ -435,6 +445,11 @@ export default function PhotoUpload() {
             x.description = editField.description;
             let y = slideState.filter((el) => el.id !== editField.id);
             y = [...y, x];
+            y = y.sort((a, b) => {
+              if (a.date > b.date) return -1;
+              if (a.date < b.date) return 1;
+              return 0;
+            });
             setSlideState(y);
           }
           toast.success("Congrats! Image Uploaded Successfully!");
