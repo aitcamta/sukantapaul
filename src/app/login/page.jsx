@@ -45,6 +45,25 @@ const page = () => {
     // alert("You have entered an invalid email address!");
     return false;
   }
+  const getUserDetails = async () => {
+    const res = await axios.post("/api/me");
+    const userData = res.data
+    if (userData.success) {
+      const userDetails = userData.data._id;
+      if (userDetails) {
+        setUserLogged(true);
+        setUSER(userData.data);
+        router.push("/profile");
+        console.log("userLogged");
+      } else {
+        setUserLogged(false);
+        console.log("userNotLogged");
+      }
+    } else {
+      setUserLogged(false);
+      console.log("userNotLogged");
+    }
+  };
   useEffect(() => {
     if (ValidateEmail(user.email) && user.password.length > 0) {
       setButtonDisabled(false);
@@ -55,7 +74,10 @@ const page = () => {
   useEffect(() => {
     if (userLogged) {
       router.push("/profile");
+    }else {
+      getUserDetails();
     }
+    //eslint-disable-next-line
   }, []);
 
   return (

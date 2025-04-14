@@ -264,26 +264,17 @@ export default function PhotoUpload() {
             getDownloadURL(uploadTask.snapshot.ref).then(async (url) => {
               // console.log(url);
               try {
-                await setDoc(doc(firestore, folder, docId), {
+                const entry = {
                   description: inputField.description,
                   original: url,
                   id: docId,
                   fileName: `${docId}-${fileName}`,
                   date: Date.now(),
                   uploadedBy: USER.name,
-                });
+                };
+                await setDoc(doc(firestore, folder, docId), entry);
                 if (folder === "homeSliderImages") {
-                  const orderedData = [
-                    ...slideState,
-                    {
-                      description: inputField.description,
-                      original: url,
-                      id: docId,
-                      fileName: `${docId}-${fileName}`,
-                      date: Date.now(),
-                      uploadedBy: USER.name,
-                    },
-                  ].sort((a, b) => {
+                  const orderedData = [...slideState, entry].sort((a, b) => {
                     if (a.date > b.date) return -1;
                     if (a.date < b.date) return 1;
                     return 0;
@@ -293,7 +284,7 @@ export default function PhotoUpload() {
                 toast.success("Congrats! Image Uploaded Successfully!");
 
                 setLoader(false);
-
+                getData();
                 setInputField({
                   id: docId,
                   description: "",
@@ -304,7 +295,6 @@ export default function PhotoUpload() {
                 setProgress(0);
                 setData(false);
                 setFile(null);
-                getData();
                 if (typeof window !== "undefined") {
                   // browser code
                   document.getElementById("file-upload").value = "";
