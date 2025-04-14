@@ -78,7 +78,7 @@ export default function Gallery() {
   }, []);
   return (
     <Section
-      className="pt-[12rem] -mt-[5.25rem]"
+      className="-mt-[0.25rem]"
       crosses
       crossesOffset="lg:translate-y-[5.25rem]"
       customPaddings
@@ -143,7 +143,7 @@ export default function Gallery() {
 
             <Gradient />
           </div>
-          <div className="absolute -top-[-26%] left-1/2 w-[234%] -translate-x-1/2 md:-top-[-46%] md:w-[138%] lg:-top-[100%]">
+          <div className="absolute -top-[-40%] left-1/2 w-[220%] -translate-x-1/2 md:-top-[-40%] md:w-[138%] lg:-top-[-40%] lg:w-[150%] opacity-60">
             <Image
               src={heroBackground}
               className="w-full"
