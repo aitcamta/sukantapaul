@@ -102,9 +102,11 @@ export default function Gallery() {
                       height={490}
                       alt="AI"
                     />
-                    <p className="max-w-3xl mx-auto -mt-5 mb-3 tiro">
-                      {item.description}
-                    </p>
+                    <div className="-mt-20 mb-3 mx-auto">
+                      <h5 className="h5 mx-auto tiro text-balance">
+                        {item.description}
+                      </h5>
+                    </div>
                   </div>
                 )}
                 autoPlay={true}
