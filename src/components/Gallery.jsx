@@ -44,8 +44,8 @@ export default function Gallery() {
       id: doc.id,
     }));
     const orderedData = data.sort((a, b) => {
-      if (a.date < b.date) return -1;
-      if (a.date > b.date) return 1;
+      if (a.date > b.date) return -1;
+      if (a.date < b.date) return 1;
       return 0;
     });
     const imageData = orderedData.map((item) => {
