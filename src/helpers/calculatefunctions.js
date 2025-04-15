@@ -552,6 +552,12 @@ export const DateValueToSring = (dateValue) => {
     }`;
   }
 };
+export const DateValueToDate = (dateValue) => {
+  if (dateValue) {
+    let date = new Date(dateValue);
+    return `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`;
+  }
+};
 export function removeDuplicates(books) {
   // Create an array of objects
 

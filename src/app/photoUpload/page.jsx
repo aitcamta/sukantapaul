@@ -27,7 +27,11 @@ import { v4 as uuid } from "uuid";
 import { ImageFolders } from "../../constants";
 import Modal from "../../components/design/Modal";
 import NextImage from "next/image";
-import { compareObjects } from "../../helpers/calculatefunctions.js";
+import {
+  compareObjects,
+  DateValueToDate,
+} from "../../helpers/calculatefunctions.js";
+import Image from "next/image";
 createTheme(
   "solarized",
   {
@@ -112,11 +116,24 @@ export default function PhotoUpload() {
       wrap: true,
       center: +true,
     },
+
     {
       name: "Thumbnail",
       cell: (row) => (
-        <img src={row.original} alt="thumbnail" style={{ width: "50px" }} />
+        <Image
+          src={row.original}
+          alt="thumbnail"
+          width={50}
+          height={50}
+          style={{ width: "50px", height: "auto" }}
+        />
       ),
+      wrap: true,
+      center: +true,
+    },
+    {
+      name: "Uploaded On",
+      selector: (row) => DateValueToDate(row.date),
       wrap: true,
       center: +true,
     },
@@ -179,11 +196,17 @@ export default function PhotoUpload() {
     const q = query(collection(firestore, folder));
 
     const querySnapshot = await getDocs(q);
-    const data = querySnapshot.docs.map((doc) => ({
-      // doc.data() is never undefined for query doc snapshots
-      ...doc.data(),
-      id: doc.id,
-    }));
+    const data = querySnapshot.docs
+      .map((doc) => ({
+        // doc.data() is never undefined for query doc snapshots
+        ...doc.data(),
+        id: doc.id,
+      }))
+      .sort((a, b) => {
+        if (a.date > b.date) return -1;
+        if (a.date < b.date) return 1;
+        return 0;
+      });
     setDatas(data);
     setFilteredData(data);
     setLoader(false);

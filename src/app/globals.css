@@ -16,7 +16,9 @@
 * {
   scroll-behavior: smooth;
 }
-
+.digib {
+  font-family: var(--font-DIGIB);
+}
 .tiro {
   font-family: "Tiro Bangla", serif;
   font-weight: 400;

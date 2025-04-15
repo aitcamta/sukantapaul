@@ -102,8 +102,13 @@ export default function Gallery() {
                       height={490}
                       alt="AI"
                     />
-                    <div className="-mt-20 mb-3 mx-auto">
-                      <h5 className="h5 mx-auto tiro text-balance">
+                    <div className="-mt-28 mb-3 mx-auto">
+                      <h5
+                        className="h5 mx-auto tiro text-center break-words whitespace-normal max-w-[90%] leading-[1.5] text-white stroke-slate-950 dark:stroke-slate-950"
+                        style={{
+                          textShadow: "0 0 5px rgba(0, 0, 0, 0.5)",
+                        }}
+                      >
                         {item.description}
                       </h5>
                     </div>
@@ -113,34 +118,6 @@ export default function Gallery() {
                 showFullscreenButton={true}
                 showThumbnails={true}
               />
-              {/* <div className="aspect-[33/40] rounded-b-[0.9rem] overflow-hidden md:aspect-[688/490] lg:aspect-[1024/490]">
-                <Image
-                  src={robot}
-                  className="w-full scale-[1.7] translate-y-[8%] md:scale-[1] md:-translate-y-[10%] lg:-translate-y-[23%]"
-                  width={1024}
-                  height={490}
-                  alt="AI"
-                />
-            
-                <Generating className="absolute left-4 right-4 bottom-5 md:left-1/2 md:right-auto md:bottom-8 md:w-[31rem] md:-translate-x-1/2" />
-
-                <ScrollParallax isAbsolutelyPositioned>
-                  <ul className="hidden absolute -left-[5.5rem] bottom-[7.5rem] px-1 py-1 bg-n-9/40 backdrop-blur border border-n-1/10 rounded-2xl xl:flex">
-                    {heroIcons.map((icon, index) => (
-                      <li className="p-5" key={index}>
-                        <Image src={icon} width={24} height={25} alt={icon} />
-                      </li>
-                    ))}
-                  </ul>
-                </ScrollParallax>
-
-                <ScrollParallax isAbsolutelyPositioned>
-                  <Notification
-                    className="hidden absolute -right-[5.5rem] bottom-[11rem] w-[18rem] xl:flex"
-                    title="Code generation"
-                  />
-                </ScrollParallax>
-              </div> */}
             </div>
 
             <Gradient />

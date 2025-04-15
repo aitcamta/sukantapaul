@@ -3,7 +3,16 @@ import "./globals.css";
 import { ToastContainer } from "react-toastify";
 import Header from "../components/Header";
 import { GlobalContextProvider } from "../context/Store";
+import localFont from "next/font/local";
 
+const DIGIB = localFont({
+  src: [
+    {
+      path: "../../public/assets/fonts/DIGIB.ttf",
+    },
+  ],
+  variable: "--font-DIGIB",
+});
 export const metadata = {
   title: "Welcome to MLA Sukanta Kumar Paul's Website",
   description:
@@ -14,7 +23,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body className={``}>
-        <div suppressHydrationWarning={true}>
+        <div suppressHydrationWarning={true} className={`${DIGIB.variable}`}>
           <GlobalContextProvider>
             <Header />
             {children}
