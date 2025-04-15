@@ -113,7 +113,7 @@ const Header = () => {
     }
 
     //eslint-disable-next-line
-  }, []);
+  }, [userLogged]);
 
   useEffect(() => {
     if (routePath === "/") {

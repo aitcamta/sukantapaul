@@ -24,5 +24,7 @@ export const config = {
     "/verifyemail",
     "/profile",
     "/verifyemail",
+    "/photoUpload",
+    "/regUsers",
   ],
 };

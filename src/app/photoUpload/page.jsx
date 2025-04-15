@@ -30,6 +30,7 @@ import NextImage from "next/image";
 import {
   compareObjects,
   DateValueToDate,
+  DateValueToSring,
 } from "../../helpers/calculatefunctions.js";
 import Image from "next/image";
 createTheme(
@@ -112,7 +113,14 @@ export default function PhotoUpload() {
     },
     {
       name: "Description",
-      selector: (row) => row.description,
+      selector: (row) => (
+        <p className="tiro m-0 p-0 text-center text-xs">
+          {row.description.length > 50
+            ? row.description.substring(0, 50) + "..."
+            : row.description}
+        </p>
+      ),
+      sortable: true,
       wrap: true,
       center: +true,
     },
@@ -120,39 +128,39 @@ export default function PhotoUpload() {
     {
       name: "Thumbnail",
       cell: (row) => (
-        <Image
-          src={row.original}
-          alt="thumbnail"
-          width={50}
-          height={50}
-          style={{ width: "50px", height: "auto" }}
-        />
+        <button
+          borderRadius="1.75rem"
+          className="relative inline-flex h-12 overflow-hidden rounded-lg p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
+          onClick={() => {
+            window.open(row.original, "_blank");
+          }}
+        >
+          <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+          <span className="inline-flex h-full w-full cursor-pointer items-center justify-center  bg-slate-950 text-sm font-medium text-white backdrop-blur-3xl">
+            <Image
+              src={row.original}
+              alt="thumbnail"
+              width={50}
+              height={50}
+              className="w-full h-full object-cover"
+            />
+          </span>
+        </button>
       ),
       wrap: true,
       center: +true,
     },
     {
       name: "Uploaded On",
-      selector: (row) => DateValueToDate(row.date),
-      wrap: true,
-      center: +true,
-    },
-    {
-      name: "Download",
-      cell: (row) => (
-        <a
-          href={row.original}
-          borderRadius="1.75rem"
-          className=" dark:bg-black p-4 text-white dark:text-white border-gray-200 dark:border-slate-800 mx-auto rounded-lg"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Download
-        </a>
+      selector: (row) => (
+        <span className="text-center break-words whitespace-normal text-white">
+          {DateValueToSring(row.date)}
+        </span>
       ),
       wrap: true,
       center: +true,
     },
+
     {
       name: "Edit",
       cell: (row) => (
@@ -733,6 +741,7 @@ export default function PhotoUpload() {
             }
             subHeaderAlign="right"
             className="bg-black text-white rounded-lg "
+            striped
           />
         </div>
       )}

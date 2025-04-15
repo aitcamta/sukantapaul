@@ -102,15 +102,19 @@ export default function Gallery() {
                       height={490}
                       alt="AI"
                     />
-                    <div className="-mt-28 mb-3 mx-auto">
-                      <h5
-                        className="h5 mx-auto tiro text-center break-words whitespace-normal max-w-[90%] leading-[1.5] text-white stroke-slate-950 dark:stroke-slate-950"
+                    <div
+                      className={`${
+                        item.description.length > 75 ? `-mt-28` : `-mt-10`
+                      } mb-3 mx-auto`}
+                    >
+                      <p
+                        className="mx-auto tiro text-center break-words whitespace-normal max-w-[90%] leading-[1.5] text-white stroke-slate-950 dark:stroke-slate-950"
                         style={{
                           textShadow: "0 0 5px rgba(0, 0, 0, 0.5)",
                         }}
                       >
                         {item.description}
-                      </h5>
+                      </p>
                     </div>
                   </div>
                 )}
