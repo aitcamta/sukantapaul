@@ -712,7 +712,7 @@ export default function PhotoUpload() {
           </Button>
         )}
       </div>
-      {data && datas.length > 0 && (
+      {data && datas.length > 0 && !isModalOpen && (
         <div className="my-3 w-full p-10">
           <DataTable
             theme="solarized"
@@ -755,10 +755,6 @@ export default function PhotoUpload() {
           <h2 className="text-2xl font-bold text-gray-800">
             Edit Slide Photos
           </h2>
-          <p className="text-gray-600">
-            This is a sleek modal component with Tailwind styling. You can add
-            any content here!
-          </p>
           <div className="mx-auto">
             <div className="mb-3">
               <textarea
