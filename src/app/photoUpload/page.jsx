@@ -32,7 +32,6 @@ import {
   DateValueToDate,
   DateValueToSring,
 } from "../../helpers/calculatefunctions.js";
-import Image from "next/image";
 createTheme(
   "solarized",
   {
@@ -305,12 +304,13 @@ export default function PhotoUpload() {
                 };
                 await setDoc(doc(firestore, folder, docId), entry);
                 if (folder === "homeSliderImages") {
-                  const orderedData = [...slideState, entry].sort((a, b) => {
+                  const orderedData = [...slideState, entry];
+                  const sorted = orderedData.sort((a, b) => {
                     if (a.date > b.date) return -1;
                     if (a.date < b.date) return 1;
                     return 0;
                   });
-                  setSlideState(orderedData);
+                  setSlideState(sorted);
                 }
                 toast.success("Congrats! Image Uploaded Successfully!");
 
