@@ -161,24 +161,24 @@ export default function RegUsers() {
       name: "User Data",
       cell: (row, index) => (
         <div className="flex flex-col space-y-2 justify-center items-center my-1">
-          <p className="text-sm text-gray-500">Sl: {index + 1} </p>
-          <p className="text-sm text-gray-500">Name: {row.name}</p>
-          <p className="text-sm text-gray-500">Email: {row.email}</p>
-          <p className="text-sm text-gray-500">Phone: {row.phone}</p>
-          <p className="text-sm text-gray-500">GP: {row.gp}</p>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-white">Sl: {index + 1} </p>
+          <p className="text-sm text-white">Name: {row.name}</p>
+          <p className="text-sm text-white">Email: {row.email}</p>
+          <p className="text-sm text-white">Phone: {row.phone}</p>
+          <p className="text-sm text-white">GP: {row.gp}</p>
+          <p className="text-sm text-white">
             Access: {row.isAdmin ? "Admin" : "User"}
           </p>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-white">
            User Status: {row.isActive ? "Active" : "Blocked"}
           </p>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-white">
            Verification Status: {row.isVerified ? "Verified" : "Not Verified"}
           </p>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-white">
             Created At: {new Date(row.createdAt).toLocaleString()}
           </p>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-white">
             Updated At: {new Date(row.updatedAt).toLocaleString()}
           </p>
           <div className="flex justify-center items-center">
