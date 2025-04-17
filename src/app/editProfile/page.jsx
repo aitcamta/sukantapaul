@@ -87,7 +87,14 @@ export default function editProfile() {
         id="mobile"
         type="number"
         value={user.phone}
-        onChange={(e) => setUser({ ...user, phone: e.target.value })}
+        onChange={(e) => {
+          if (e.target.value.length <= 10) {
+            setUser({ ...user, phone: e.target.value });
+          } else {
+            toast.error("Mobile Number should be 10 digits");
+            setUser({ ...user, phone: e.target.value.slice(0, 10) });
+          }
+        }}
         placeholder="Enter Mobile Number"
         required
       />

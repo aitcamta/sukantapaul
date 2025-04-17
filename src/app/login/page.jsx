@@ -30,6 +30,9 @@ const page = () => {
       } else {
         setLoading(false);
         toast.error(response.data.message);
+        if(response.data.message === "Please Verify Your Email or Password") {
+          toast.error("Please Check Your Spam Folder for Verification Email");
+        }
       }
     } catch (error) {
       setLoading(false);

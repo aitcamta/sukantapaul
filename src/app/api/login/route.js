@@ -57,7 +57,7 @@ export const POST = async (request) => {
       } else {
         return new Response(
           JSON.stringify({
-            message: "Account Blocked",
+            message: "Account Blocked contact admin",
             success: false,
           }),
           { status: 200, headers: { "Content-Type": "application/json" } }
