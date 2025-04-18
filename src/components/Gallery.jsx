@@ -104,8 +104,12 @@ export default function Gallery() {
                     />
                     <div
                       className={`${
-                        item.description.length > 75 ? `-mt-28` : `-mt-10`
-                      } mb-3 mx-auto`}
+                        item.description.length >= 150
+                          ? `-mt-36`
+                          : item.description.length > 75
+                          ? `-mt-20`
+                          : `-mt-14`
+                      } mx-auto`}
                     >
                       <p
                         className="mx-auto tiro text-center break-words whitespace-normal max-w-[90%] leading-[1.5] text-white stroke-slate-950 dark:stroke-slate-950"

@@ -32,6 +32,10 @@ const Header = () => {
       url: "#gallery",
     },
     {
+      title: "Description",
+      url: "#description",
+    },
+    {
       title: "Pricing",
       url: "#pricing",
     },
@@ -52,10 +56,6 @@ const Header = () => {
       title: userLogged ? "Log Out" : "Sign in",
       url: userLogged ? "/logout" : "/login",
       onlyMobile: true,
-    },
-    {
-      title: "Description",
-      url: "#description",
     },
   ];
   const subPageNavigation = [
@@ -84,7 +84,7 @@ const Header = () => {
 
   const getUserDetails = async () => {
     const res = await axios.post("/api/me");
-    const userData = res.data
+    const userData = res.data;
     if (userData.success) {
       const userDetails = userData.data._id;
       if (userDetails) {
@@ -147,7 +147,7 @@ const Header = () => {
                 key={index}
                 href={item.url}
                 onClick={handleClick}
-                className={`block relative font-code text-2xl uppercase text-n-1 transition-colors hover:text-color-1 ${
+                className={`block relative font-code uppercase text-n-1 transition-colors hover:text-color-1 ${
                   item.onlyMobile ? "lg:hidden" : ""
                 } px-6 py-6 md:py-8 lg:-mr-0.25 lg:text-xs lg:font-semibold ${
                   item.url === pathname ? "z-2 lg:text-n-1" : "lg:text-n-1/50"

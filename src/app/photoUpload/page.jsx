@@ -58,7 +58,7 @@ createTheme(
   "dark"
 );
 
-export default function PhotoUpload() {
+const PhotoUpload = () => {
   const router = useRouter();
   const { USER, setUSER, userLogged, slideState, setSlideState } =
     useGlobalContext();
@@ -102,95 +102,143 @@ export default function PhotoUpload() {
   const [datas, setDatas] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [folder, setFolder] = useState("homeSliderImages");
-
+  const [isDelModalOpen, setIsDelModalOpen] = useState(false);
+  const [delField, setDelField] = useState({
+    original: "",
+    description: "",
+    id: "",
+    fileName: "",
+    date: Date.now(),
+  });
   const columns = [
-    {
-      name: "Sl",
-      selector: (row, index) => index + 1,
-      sortable: true,
-      center: +true,
-    },
-    {
-      name: "Description",
-      selector: (row) => (
-        <p className="tiro m-0 p-0 text-center text-xs">
-          {row.description.length > 50
-            ? row.description.substring(0, 50) + "..."
-            : row.description}
-        </p>
-      ),
-      sortable: true,
-      wrap: true,
-      center: +true,
-    },
+    // {
+    //   name: "Sl",
+    //   selector: (row, index) => index + 1,
+    //   sortable: true,
+    //   center: +true,
+    // },
+    // {
+    //   name: "Description",
+    //   selector: (row) => (
+    //     <p className="tiro m-0 p-0 text-center text-xs">
+    //       {row.description.length > 50
+    //         ? row.description.substring(0, 50) + "..."
+    //         : row.description}
+    //     </p>
+    //   ),
+    //   sortable: true,
+    //   wrap: true,
+    //   center: +true,
+    // },
+    // {
+    //   name: "Uploaded On",
+    //   selector: (row) => (
+    //     <span className="text-center break-words whitespace-normal text-white">
+    //       {DateValueToSring(row.date)}
+    //     </span>
+    //   ),
+    //   wrap: true,
+    //   center: +true,
+    // },
 
-    {
-      name: "Thumbnail",
-      cell: (row) => (
-        <button
-          borderRadius="1.75rem"
-          className="relative inline-flex h-12 overflow-hidden rounded-lg p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
-          onClick={() => {
-            window.open(row.original, "_blank");
-          }}
-        >
-          <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
-          <span className="inline-flex h-full w-full cursor-pointer items-center justify-center  bg-slate-950 text-sm font-medium text-white backdrop-blur-3xl">
-            <NextImage
-              src={row.original}
-              alt="thumbnail"
-              width={50}
-              height={50}
-              className="w-full h-full object-cover"
-            />
-          </span>
-        </button>
-      ),
-      wrap: true,
-      center: +true,
-    },
-    {
-      name: "Uploaded On",
-      selector: (row) => (
-        <span className="text-center break-words whitespace-normal text-white">
-          {DateValueToSring(row.date)}
-        </span>
-      ),
-      wrap: true,
-      center: +true,
-    },
+    // {
+    //   name: "Edit",
+    //   cell: (row) => (
+    //     <Button
+    //
+    //       className=" dark:bg-yellow-700  text-white dark:text-white border-gray-200 dark:border-slate-800 mx-auto"
+    //       onClick={() => {
+    //         setEditField(row);
+    //         setorgEditField(row);
+    //         setIsModalOpen(true);
+    //       }}
+    //     >
+    //       Edit
+    //     </Button>
+    //   ),
+    //   wrap: true,
+    //   center: +true,
+    // },
 
+    // {
+    //   name: "Delete",
+    //   cell: (row) => (
+    //     <Button
+    //
+    //       className=" dark:bg-red-800  text-white dark:text-white border-gray-200 dark:border-slate-800 mx-auto"
+    //       onClick={() => {
+    //         deleteFile(row.fileName, row.id);
+    //       }}
+    //     >
+    //       Delete
+    //     </Button>
+    //   ),
+    //   wrap: true,
+    //   center: +true,
+    // },
     {
-      name: "Edit",
-      cell: (row) => (
-        <Button
-          borderRadius="1.75rem"
-          className=" dark:bg-yellow-700  text-white dark:text-white border-gray-200 dark:border-slate-800 mx-auto"
-          onClick={() => {
-            setEditField(row);
-            setorgEditField(row);
-            setIsModalOpen(true);
-          }}
-        >
-          Edit
-        </Button>
-      ),
-      wrap: true,
-      center: +true,
-    },
-
-    {
-      name: "Delete",
-      cell: (row) => (
-        <Button
-          borderRadius="1.75rem"
-          className=" dark:bg-red-800  text-white dark:text-white border-gray-200 dark:border-slate-800 mx-auto"
-          onClick={() => {
-            deleteFile(row.fileName, row.id);
-          }}
-        >
-          Delete
-        </Button>
+      name: "Details",
+      cell: (row, index) => (
+        <div className="flex flex-col items-center justify-center m-1">
+          <p className="text-sm text-white">Sl: {index + 1} </p>
+          <button
+            className="relative inline-flex w-auto h-32 overflow-hidden rounded-lg p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 m-2"
+            onClick={() => {
+              window.open(row.original, "_blank");
+            }}
+          >
+            <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+            <span className="inline-flex h-full w-full cursor-pointer items-center justify-center  bg-slate-950 text-sm font-medium text-white backdrop-blur-3xl">
+              <img
+                src={row.original}
+                alt="thumbnail"
+                width={50}
+                height={50}
+                className="w-full h-full object-cover"
+              />
+            </span>
+          </button>
+          <p className="text-sm text-fuchsia-500 text-center">
+            Description:
+          </p>
+          <p className="text-sm text-white text-center">
+            {row.description}
+          </p>
+          <p className="text-sm text-lime-500 text-center">
+            Uploaded On:{DateValueToSring(row.date)}
+          </p>
+          <div className="flex justify-center items-center">
+            <button
+              className="relative inline-flex h-12 overflow-hidden rounded-lg p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 m-1 "
+              onClick={() => {
+                setEditField(row);
+                setorgEditField(row);
+                setIsModalOpen(true);
+              }}
+            >
+              <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+              <span
+                className={`inline-flex h-full w-full cursor-pointer items-center justify-center bg-yellow-500 text-sm font-medium text-white backdrop-blur-3xl p-2`}
+              >
+                Edit
+              </span>
+            </button>
+            <button
+              className="relative inline-flex h-12 overflow-hidden rounded-lg p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 m-1 "
+              onClick={() => {
+                setIsDelModalOpen(true);
+                setDelField(row);
+              }}
+            >
+              <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+              <span
+                className={`inline-flex h-full w-full cursor-pointer items-center justify-center  bg-red-500 text-sm font-medium text-white backdrop-blur-3xl p-2`}
+              >
+                Delete
+              </span>
+            </button>
+          </div>
+        </div>
       ),
       wrap: true,
       center: +true,
@@ -681,7 +729,6 @@ export default function PhotoUpload() {
         ></div>
         <div className="my-3">
           <Button
-            borderRadius="1.75rem"
             className=" dark:bg-black text-white dark:text-white border-gray-200 dark:border-slate-800"
             onClick={() => {
               uploadFiles();
@@ -694,7 +741,6 @@ export default function PhotoUpload() {
       <div className="flex flex-col items-center justify-center mx-auto">
         {!data ? (
           <Button
-            borderRadius="1.75rem"
             className=" dark:bg-black p-2 text-white dark:text-white border-gray-200 dark:border-slate-800"
             onClick={() => {
               getData();
@@ -704,7 +750,6 @@ export default function PhotoUpload() {
           </Button>
         ) : (
           <Button
-            borderRadius="1.75rem"
             className=" dark:bg-black p-2 text-white dark:text-white border-gray-200 dark:border-slate-800"
             onClick={() => setData(false)}
           >
@@ -712,7 +757,7 @@ export default function PhotoUpload() {
           </Button>
         )}
       </div>
-      {data && datas.length > 0 && !isModalOpen && (
+      {data && datas.length > 0 && !isModalOpen && !isDelModalOpen && (
         <div className="my-3 w-full p-10">
           <DataTable
             theme="solarized"
@@ -866,14 +911,12 @@ export default function PhotoUpload() {
           <div className="flex justify-end space-x-3">
             <div className="mb-3">
               <Button
-                borderRadius="1.75rem"
                 className=" dark:bg-black p-2 text-white dark:text-white border-gray-200 dark:border-slate-800"
                 onClick={updateSlide}
               >
                 Update Image
               </Button>
               <Button
-                borderRadius="1.75rem"
                 className=" dark:bg-black p-2 text-white dark:text-white border-gray-200 dark:border-slate-800"
                 onClick={() => {
                   setIsModalOpen(false);
@@ -903,6 +946,35 @@ export default function PhotoUpload() {
           </div>
         </div>
       </Modal>
+      <Modal
+        isOpen={isDelModalOpen}
+        onClose={() => setIsDelModalOpen(false)}
+        isStatic
+      >
+        <div className="space-y-4">
+          <h5 className="h5 font-bold text-gray-800 text-center">
+            Delete Photo
+          </h5>
+          <div className="mx-auto">
+            <div className="flex flex-col space-y-2 justify-center items-center">
+              <h5 className="h5 font-bold text-gray-800 text-center">
+                Are you sure you want to delete this Photo ?
+              </h5>
+              <Button
+                className={`bg-red-500`}
+                onClick={() => deleteFile(delField.fileName, delField.id)}
+              >
+                Delete
+              </Button>
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-center items-center mt-4">
+          <Button onClick={() => setIsDelModalOpen(false)}>Close</Button>
+        </div>
+      </Modal>
     </div>
   );
-}
+};
+
+export default PhotoUpload;
