@@ -21,7 +21,7 @@ const Modal = ({ isOpen, onClose, children, isStatic }: ModalProps) => {
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center p-4"
+      className="absolute top-52 inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center p-4"
       onClick={handleBackdropClick}
     >
       <div className="bg-white rounded-xl p-6 w-full max-w-md relative shadow-2xl">

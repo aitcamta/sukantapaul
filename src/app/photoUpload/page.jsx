@@ -189,21 +189,19 @@ const PhotoUpload = () => {
           >
             <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
             <span className="inline-flex h-full w-full cursor-pointer items-center justify-center  bg-slate-950 text-sm font-medium text-white backdrop-blur-3xl">
-              <img
+              <NextImage
                 src={row.original}
                 alt="thumbnail"
+                className="w-full h-full object-cover"
                 width={50}
                 height={50}
-                className="w-full h-full object-cover"
+                unoptimized
+                loading="eager"
               />
             </span>
           </button>
-          <p className="text-sm text-fuchsia-500 text-center">
-            Description:
-          </p>
-          <p className="text-sm text-white text-center">
-            {row.description}
-          </p>
+          <p className="text-sm text-fuchsia-500 text-center">Description:</p>
+          <p className="text-sm text-white text-center">{row.description}</p>
           <p className="text-sm text-lime-500 text-center">
             Uploaded On:{DateValueToSring(row.date)}
           </p>
@@ -796,21 +794,27 @@ const PhotoUpload = () => {
         onClose={() => setIsModalOpen(false)}
         isStatic
       >
-        <div className="space-y-4">
+        <div className="space-y-4 mt-10">
           <h2 className="text-2xl font-bold text-gray-800">
             Edit Slide Photos
           </h2>
           <div className="mx-auto">
             <div className="mb-3">
               <textarea
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 my-3"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 my-3 text-center"
                 placeholder="Enter Description"
                 value={editField.description}
                 onChange={(e) =>
                   setEditField({ ...editField, description: e.target.value })
                 }
-                cols="30"
-                rows="5"
+                cols={30}
+                rows={
+                  editField.description.length
+                    ? editField.description.length > 30
+                      ? Math.round(editField.description.length / 30)
+                      : Math.round(editField.description.length / 50)
+                    : 2
+                }
               ></textarea>
             </div>
             {errEditField.errDescription.length > 0 && (
@@ -844,15 +848,14 @@ const PhotoUpload = () => {
               />
               <div className="m-2 mx-auto">
                 {editFile && (
-                  <div
-                    style={{ position: "relative", display: "inline-block" }}
-                  >
+                  <div className="flex relative justify-center items-center">
                     <NextImage
                       src={editFile ? URL.createObjectURL(editFile) : ""}
                       alt="img"
                       width={100}
                       height={100}
                       style={{ width: "200px", height: "auto" }}
+                      className="mx-auto"
                     />
                     <button
                       onClick={() => {
@@ -866,8 +869,8 @@ const PhotoUpload = () => {
                       }}
                       style={{
                         position: "absolute",
-                        top: "10px",
-                        right: "10px",
+                        top: "5px",
+                        right: "50px",
                         background: "red",
                         color: "white",
                         border: "none",
@@ -885,9 +888,11 @@ const PhotoUpload = () => {
                   </div>
                 )}
                 {!editFile && (
-                  <img
+                  <NextImage
                     src={orgEditField.original}
                     alt="thumbnail"
+                    width={100}
+                    height={100}
                     style={{ width: "200px" }}
                     className="my-4 mx-auto"
                   />
@@ -908,41 +913,39 @@ const PhotoUpload = () => {
               }}
             ></div>
           </div>
-          <div className="flex justify-end space-x-3">
-            <div className="mb-3">
-              <Button
-                className=" dark:bg-black p-2 text-white dark:text-white border-gray-200 dark:border-slate-800"
-                onClick={updateSlide}
-              >
-                Update Image
-              </Button>
-              <Button
-                className=" dark:bg-black p-2 text-white dark:text-white border-gray-200 dark:border-slate-800"
-                onClick={() => {
-                  setIsModalOpen(false);
-                  setEditField({
-                    original: "",
-                    description: "",
-                    id: "",
-                    fileName: "",
-                  });
-                  setorgEditField({
-                    original: "",
-                    description: "",
-                    id: "",
-                    fileName: "",
-                  });
-                  setEditFile(null);
-                  setEditFileName("");
-                  setProgress(0);
-                  if (document.getElementById("edit_file_upload")) {
-                    document.getElementById("edit_file_upload").value = "";
-                  }
-                }}
-              >
-                Close
-              </Button>
-            </div>
+          <div className="flex justify-center align-middle space-x-3">
+            <Button
+              className=" dark:bg-black p-2 text-white dark:text-white border-gray-200 dark:border-slate-800"
+              onClick={updateSlide}
+            >
+              Update Image
+            </Button>
+            <Button
+              className=" dark:bg-black p-2 text-white dark:text-white border-gray-200 dark:border-slate-800"
+              onClick={() => {
+                setIsModalOpen(false);
+                setEditField({
+                  original: "",
+                  description: "",
+                  id: "",
+                  fileName: "",
+                });
+                setorgEditField({
+                  original: "",
+                  description: "",
+                  id: "",
+                  fileName: "",
+                });
+                setEditFile(null);
+                setEditFileName("");
+                setProgress(0);
+                if (document.getElementById("edit_file_upload")) {
+                  document.getElementById("edit_file_upload").value = "";
+                }
+              }}
+            >
+              Close
+            </Button>
           </div>
         </div>
       </Modal>
