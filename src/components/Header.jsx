@@ -36,10 +36,6 @@ const Header = () => {
       url: "#description",
     },
     {
-      title: "Pricing",
-      url: "#pricing",
-    },
-    {
       title: "How to use",
       url: "#how-to-use",
     },

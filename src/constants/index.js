@@ -244,11 +244,12 @@ export const pricing = [
 export const benefits = [
   {
     id: "0",
-    title: "Ask anything",
-    text: "Lets users quickly find answers to their questions without having to search through multiple sources.",
+    title: "Ask MLA",
+    text: "আপনাদের সমস্ত জিজ্ঞাসা, আদেশ, অনুরোধ, নিবেদন ও অভিযোগ শুনতে আমি সর্বদা আগ্রহী। স্পর্শকাতর বিষয়ে আপনার পরিচয় গোপন রাখাতে আমি আপনাদের কাছে অঙ্গীকারবদ্ধ।",
     backgroundUrl: "./src/assets/benefits/card-1.svg",
     iconUrl: benefitIcon1,
     imageUrl: benefitImage2,
+    pageUrl: "/askMLA",
   },
   {
     id: "1",
@@ -257,6 +258,7 @@ export const benefits = [
     backgroundUrl: "./src/assets/benefits/card-2.svg",
     iconUrl: benefitIcon2,
     imageUrl: benefitImage2,
+    pageUrl: "",
     light: true,
   },
   {
@@ -266,6 +268,7 @@ export const benefits = [
     backgroundUrl: "./src/assets/benefits/card-3.svg",
     iconUrl: benefitIcon3,
     imageUrl: benefitImage2,
+    pageUrl: "",
   },
   {
     id: "3",
@@ -274,6 +277,7 @@ export const benefits = [
     backgroundUrl: "./src/assets/benefits/card-4.svg",
     iconUrl: benefitIcon4,
     imageUrl: benefitImage2,
+    pageUrl: "",
     light: true,
   },
   {
@@ -283,6 +287,7 @@ export const benefits = [
     backgroundUrl: "./src/assets/benefits/card-5.svg",
     iconUrl: benefitIcon1,
     imageUrl: benefitImage2,
+    pageUrl: "",
   },
   {
     id: "5",
@@ -291,6 +296,7 @@ export const benefits = [
     backgroundUrl: "./src/assets/benefits/card-6.svg",
     iconUrl: benefitIcon2,
     imageUrl: benefitImage2,
+    pageUrl: "",
   },
 ];
 
