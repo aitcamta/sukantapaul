@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 
-export const sendOTP = async ({ email, code, name }) => {
+export const sendTextEmail = async ({ email, name, message, id }) => {
   try {
     // const hasedToken = await bcrypt.hash(userId.toString(), 10);
 
@@ -32,12 +32,13 @@ export const sendOTP = async ({ email, code, name }) => {
       },
       replyTo: email,
       to: email,
-      subject: `Verify Your Email: Mail no ${Math.floor(
+      subject: `Email from SUKANTA PAUL: Mail no ${Math.floor(
         Math.random() * 1000 + 1
       )}`,
       text: `Hello Dear ${name}!`,
       html: `<h1 style="text-align:center; color:blue; ">Hello Dear ${name}</h1>
-        <h2 style="text-align:center; color:blue;">Your OTP is ${code}. Please use this OTP to verify your email.</h2>`,
+        <h2 style="text-align:center; color:blue;">Your Request Token is ${id}</h2>,
+        <h2 style="text-align:center; color:blue;">Your Message is:\n${message}</h2>`,
     };
 
     await new Promise((resolve, reject) => {

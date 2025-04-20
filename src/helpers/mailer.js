@@ -45,19 +45,11 @@ export const sendEmail = async ({ email, emailType, userId, name }) => {
     });
     let emailBody = "";
     if (emailType == "VERIFY") {
-      emailBody = `<p>Click <a href="${
-        process.env.DOMAIN
-      }/verifyemail?token=${hasedToken}">here</a> to ${
-        emailType === "VERIFY" ? "verify your email" : "reset your password"
-      }or copy and paste the link below in your browser.<br>
+      emailBody = `<p>Click <a href="${process.env.DOMAIN}/verifyemail?token=${hasedToken}">here</a> to verify your email or copy and paste the link below in your browser.<br>
       ${process.env.DOMAIN}/verifyemail?token=${hasedToken}
       </р>`;
     } else if (emailType == "RESET") {
-      emailBody = `<p>Click <a href="${
-        process.env.DOMAIN
-      }/resetpassword?token=${hasedToken}">here</a> to ${
-        emailType === "VERIFY" ? "verify your email" : "reset your password"
-      }or copy and paste the link below in your browser.<br>
+      emailBody = `<p>Click <a href="${process.env.DOMAIN}/resetpassword?token=${hasedToken}">here</a> to reset your password or copy and paste the link below in your browser.<br>
       ${process.env.DOMAIN}/resetpassword?token=${hasedToken}
       </р>`;
     }

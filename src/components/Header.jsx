@@ -17,7 +17,8 @@ import axios from "axios";
 const Header = () => {
   const router = useRouter();
   const routePath = usePathname();
-  const { setUSER, userLogged, setUserLogged } = useGlobalContext();
+  const { setUSER, userLogged, setUserLogged, USER } = useGlobalContext();
+  const { isAdmin } = USER;
   // Access the pathname and query params
   const pathname = router;
   const [openNavigation, setOpenNavigation] = useState(false);
@@ -48,6 +49,15 @@ const Header = () => {
       url: userLogged ? "/profile" : "/signup",
       onlyMobile: true,
     },
+
+    {
+      title: isAdmin ? "View Users" : "",
+      url: isAdmin ? "/regUsers" : "#",
+    },
+    {
+      title: isAdmin ? "Image Upload" : "",
+      url: isAdmin ? "/photoUpload" : "#",
+    },
     {
       title: userLogged ? "Log Out" : "Sign in",
       url: userLogged ? "/logout" : "/login",
@@ -62,6 +72,15 @@ const Header = () => {
     {
       title: userLogged ? "Dashboard" : "New account",
       url: userLogged ? "/profile" : "/signup",
+    },
+
+    {
+      title: isAdmin ? "View Users" : "",
+      url: isAdmin ? "/regUsers" : "#",
+    },
+    {
+      title: isAdmin ? "Image Upload" : "",
+      url: isAdmin ? "/photoUpload" : "#",
     },
     {
       title: userLogged ? "Log Out" : "Sign in",
@@ -138,20 +157,25 @@ const Header = () => {
           } fixed top-[5rem] left-0 right-0 bottom-0 bg-n-8 lg:static lg:flex lg:mx-auto lg:bg-transparent`}
         >
           <div className="relative z-2 flex flex-col items-center justify-center m-auto lg:flex-row">
-            {navMenu.map((item, index) => (
-              <Link
-                key={index}
-                href={item.url}
-                onClick={handleClick}
-                className={`block relative font-code uppercase text-n-1 transition-colors hover:text-color-1 ${
-                  item.onlyMobile ? "lg:hidden" : ""
-                } px-6 py-6 md:py-8 lg:-mr-0.25 lg:text-xs lg:font-semibold ${
-                  item.url === pathname ? "z-2 lg:text-n-1" : "lg:text-n-1/50"
-                } lg:leading-5 lg:hover:text-n-1 xl:px-12`}
-              >
-                {item.title}
-              </Link>
-            ))}
+            {navMenu.map(
+              (item, index) =>
+                item.title !== "" && (
+                  <Link
+                    key={index}
+                    href={item.url}
+                    onClick={handleClick}
+                    className={`block relative font-code uppercase text-n-1 transition-colors hover:text-color-1 ${
+                      item.onlyMobile ? "lg:hidden" : ""
+                    } px-6 py-6 md:py-8 lg:-mr-0.25 lg:text-xs lg:font-semibold ${
+                      item.url === pathname
+                        ? "z-2 lg:text-n-1"
+                        : "lg:text-n-1/50"
+                    } lg:leading-5 lg:hover:text-n-1 xl:px-12`}
+                  >
+                    {item.title}
+                  </Link>
+                )
+            )}
           </div>
 
           <HamburgerMenu />
