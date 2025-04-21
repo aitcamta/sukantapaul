@@ -73,6 +73,9 @@ export default function ProfilePage() {
           <Button className="mb-3" onClick={() => router.push("/photoUpload")}>
             Image Upload
           </Button>
+          <Button className="mb-3" onClick={() => router.push("/requests")}>
+            Requests
+          </Button>
         </div>
       )}
       <hr />

@@ -37,6 +37,10 @@ const Header = () => {
       url: "#description",
     },
     {
+      title: "Features",
+      url: "#features",
+    },
+    {
       title: "How to use",
       url: "#how-to-use",
     },
@@ -57,6 +61,10 @@ const Header = () => {
     {
       title: isAdmin ? "Image Upload" : "",
       url: isAdmin ? "/photoUpload" : "#",
+    },
+    {
+      title: isAdmin ? "Requests" : "",
+      url: isAdmin ? "/requests" : "#",
     },
     {
       title: userLogged ? "Log Out" : "Sign in",
@@ -81,6 +89,10 @@ const Header = () => {
     {
       title: isAdmin ? "Image Upload" : "",
       url: isAdmin ? "/photoUpload" : "#",
+    },
+    {
+      title: isAdmin ? "Requests" : "",
+      url: isAdmin ? "/requests" : "#",
     },
     {
       title: userLogged ? "Log Out" : "Sign in",

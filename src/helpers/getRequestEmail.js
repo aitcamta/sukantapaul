@@ -63,7 +63,9 @@ export const getRequestEmail = async ({
           <img
             alt="imgRequest"
             src=${url}
-            style={{ width: "300px", height: "auto", borderRadius:"10px" }}
+            style="width: 200px;
+            height: auto;
+            border-radius: 10px;"
           />
       <br/>
         <h2 style="text-align:center; color:blue;">${message}</h2>`,

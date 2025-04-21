@@ -187,6 +187,15 @@ export default function AskMLA() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!emailVerified) return;
+    if (
+      formData.address === "" ||
+      formData.phone === "" ||
+      formData.message === ""
+    ) {
+      toast.error("Invalid Data");
+      return;
+    }
+
     // Handle form submission here
     setLoader(true);
     const docId = uuid().split("-")[0];
