@@ -253,12 +253,12 @@ export const benefits = [
   },
   {
     id: "1",
-    title: "Improve everyday",
-    text: "The app uses natural language processing to understand user queries and provide accurate and relevant responses.",
+    title: "Government Schemes",
+    text: "এই অংশে আপনি রাজ্য সরকারের বিভিন্ন প্রকল্পের সুবিধা সম্পর্কে জানতে পারবেন।",
     backgroundUrl: "./src/assets/benefits/card-2.svg",
     iconUrl: benefitIcon2,
     imageUrl: benefitImage2,
-    pageUrl: "",
+    pageUrl: "/govtSchemes",
     light: true,
   },
   {
@@ -364,3 +364,5 @@ export const ImageFolders = [
     folderName: "otherimages",
   },
 ];
+
+export const GovtSchemes = [{}];
