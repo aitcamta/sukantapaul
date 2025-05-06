@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { benefits } from "../constants";
 import Heading from "./Heading";
 import Section from "./Section";
@@ -38,7 +38,13 @@ const Benefits = () => {
                   }
                 }}
               >
-                <h5 className="h5 mb-5">{item.title}</h5>
+                <h5
+                  className={`h5 mb-5 text-center ${
+                    !/^[a-zA-Z]+$/.test(item.title.split(" ")[0]) && "tiro"
+                  }`}
+                >
+                  {item.title}
+                </h5>
                 <p
                   className={`body-2 mb-6 text-n-3 ${
                     !/^[a-zA-Z]+$/.test(item.text.split(" ")[0]) && "tiro"
@@ -53,8 +59,8 @@ const Benefits = () => {
                     height={48}
                     alt={item.title}
                   />
-                  <p className="ml-auto font-code text-xs font-bold text-n-1 uppercase tracking-wider">
-                    Explore more
+                  <p className="ml-auto font-code text-xs font-bold tiro text-n-1 uppercase tracking-wider">
+                    বিশদ জানুন
                   </p>
                   <Arrow />
                 </div>
