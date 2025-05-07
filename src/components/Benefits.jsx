@@ -16,7 +16,7 @@ const Benefits = () => {
       <div className="container relative z-2">
         <Heading
           className="md:max-w-md lg:max-w-2xl"
-          title="Chat Smarter, Not Harder with Brainwave"
+          title="Connect with your Government"
         />
 
         <div className="flex flex-wrap gap-10 mb-10">
@@ -31,6 +31,7 @@ const Benefits = () => {
               <div
                 className="relative z-2 flex flex-col min-h-[22rem] p-[2.4rem] cursor-pointer"
                 onClick={() => {
+                  console.log(item)
                   if (item.pageUrl !== "") {
                     router.push(item.pageUrl);
                   } else {

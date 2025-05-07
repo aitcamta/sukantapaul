@@ -37,7 +37,7 @@ const Header = () => {
       url: "#description",
     },
     {
-      title: "Features",
+      title: "Connect",
       url: "#features",
     },
     {

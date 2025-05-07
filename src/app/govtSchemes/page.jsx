@@ -32,7 +32,7 @@ export default function GovtScheme() {
   //   arrangeData();
   // }, []);
   return (
-    <div className="container min-h-screen py-8 px-4 sm:px-6 lg:px-8 mt-44 lg:mt-28 md:mt-28">
+    <div className="container min-h-screen py-8 px-4 sm:px-6 lg:px-8 mt-40 lg:mt-20 md:mt-20">
       <section className="py-8">
         <div className="max-w-7xl mx-auto" data-aos="fade-up">
           <div className="text-center mb-12">
@@ -41,7 +41,7 @@ export default function GovtScheme() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {GovtSchemes.map((scheme) => (
               <div
                 key={scheme.id}
@@ -49,24 +49,24 @@ export default function GovtScheme() {
                 data-aos="fade-up"
                 data-aos-delay={scheme.delay}
               >
-                <div className="flex-1 p-6 bg-white">
+                <div className="flex-1 p-6 bg-blue-900">
                   <div className="text-center">
                     <img
                       src={scheme.imageSrc}
                       className="mx-auto mb-6 max-h-[120px] object-contain"
                       alt={scheme.title}
                     />
-                    <h3 className="text-xl font-semibold text-gray-800 mb-4 tiro">
+                    <h3 className="text-xl font-semibold text-white mb-4 tiro">
                       {" "}
                       {scheme.title}
                     </h3>
                   </div>
                   <div
-                    className={`text-gray-600 text-justify mb-6 ${styles.prose} tiro`}
+                    className={`text-white text-justify mb-6 ${styles.prose} tiro`}
                     dangerouslySetInnerHTML={{ __html: scheme.description }}
                   />
                 </div>
-                <div className="p-4 bg-gray-50 text-center">
+                <div className="p-4 bg-lime-600 text-center">
                   <a
                     href={scheme.link}
                     className="inline-block px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300 tiro"
