@@ -1,6 +1,5 @@
 import React from "react";
 import Section from "./Section";
-import { BackgroundCircles, BottomLine, Gradient } from "./design/Hero";
 
 export default function Description() {
   return (
@@ -11,10 +10,13 @@ export default function Description() {
       customPaddings
       id="description"
     >
-      <div className="flex flex-col items-center justify-center w-full my-5">
-        <p className="body-1 max-w-screen-2xl mx-auto text-n-2 lg:mb-8 tiro px-6" style={{
-            textIndent:50
-        }}>
+      <div className="flex flex-col items-center justify-center w-full my-5 flex-wrap">
+        <p
+          className="body-1 max-w-screen-2xl mx-auto text-n-2 lg:mb-8 tiro px-6"
+          style={{
+            textIndent: 50,
+          }}
+        >
           সম্মাননীয়া মুখ্যমন্ত্রী শ্রীমতি মমতা বন্দ্যোপাধ্যায়ের অনুপ্রেরণায় ও
           আদর্শে এবং সম্মাননীয় সাংসদ শ্রী অভিষেক বন্দ্যোপাধ্যায়ের পরামর্শে আমতা
           বিধানসভা কেন্দ্রের সার্বিক উন্নয়ন, সেবা ও কর্মসূচি নিয়ে আমি এবং আমার
@@ -26,9 +28,6 @@ export default function Description() {
           করছি। আসুন, আমরা একসঙ্গে আমতা কেন্দ্রের উন্নয়নে কাজ করি। ধন্যবাদ।
         </p>
       </div>
-
-      
-      <BottomLine/>
     </Section>
   );
 }

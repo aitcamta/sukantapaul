@@ -60,8 +60,16 @@ createTheme(
 
 export default function Requests() {
   const router = useRouter();
-  const { USER, setUSER, userLogged, slideState, setSlideState } =
-    useGlobalContext();
+  const {
+    USER,
+    userRequestState,
+    setUserRequestState,
+    userReqUpdTime,
+    setUserReqUpdTime,
+    unreadRequests,
+    setUnreadRequests,
+  } = useGlobalContext();
+  const { isAdmin } = USER;
   const [loader, setLoader] = useState(false);
   const [search, setSearch] = useState("");
   const [allData, setAllData] = useState([]);
@@ -192,6 +200,17 @@ export default function Requests() {
     setAllData(data);
     setFilteredData(data);
     setLoader(false);
+    setUserRequestState(data);
+    setUserReqUpdTime(Date.now());
+    let unread = 0;
+    if (data.length > 0) {
+      data.forEach((item) => {
+        if (item.reply === "") {
+          unread++;
+        }
+      });
+    }
+    setUnreadRequests(unread);
   };
   const submitReply = async () => {
     try {
@@ -244,46 +263,66 @@ export default function Requests() {
     getData();
   };
   useEffect(() => {
-    getData();
+    if (isAdmin) {
+      const userTimeDifference = (Date.now() - userReqUpdTime) / 1000 / 60 / 15;
+      if (userTimeDifference >= 1 || userRequestState.length === 0) {
+        getData();
+      }
+    } else {
+      router.push("/");
+    }
     //eslint-disable-next-line
   }, []);
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 mt-44 lg:mt-28 md:mt-28 mx-auto">
       {loader ? <Loader /> : null}
       <h1 className="text-3xl mb-4 text-center">Request Submitted by Users</h1>
+      <button
+        type="button"
+        className="text-green-400 hover:text-blue-700"
+        onClick={getData}
+      >
+        <i class="bi bi-arrow-clockwise h5"></i>
+        <span className="p-1 -mt-4 h5">Reload</span>
+      </button>
       <hr />
-      {allData.length > 0 && !isModalOpen && !isDelModalOpen && (
-        <div className="my-3 w-full p-10">
-          <DataTable
-            theme="solarized"
-            columns={columns}
-            data={filteredData}
-            pagination
-            highlightOnHover
-            fixedHeader
-            subHeader
-            subHeaderComponent={
-              <input
-                type="text"
-                placeholder="Search"
-                className="w-25 form-control rounded"
-                value={search}
-                onChange={(e) => {
-                  setSearch(e.target.value);
-                  const serarchedData = allData.filter((item) =>
-                    item.name
-                      .toLowerCase()
-                      .includes(e.target.value.toLowerCase())
-                  );
-                  setFilteredData(serarchedData);
-                }}
-              />
-            }
-            subHeaderAlign="right"
-            className="bg-black text-white rounded-lg "
-            striped
-          />
-        </div>
+      {allData.length > 0 ? (
+        !isModalOpen &&
+        !isDelModalOpen && (
+          <div className="my-3 w-full p-10">
+            <DataTable
+              theme="solarized"
+              columns={columns}
+              data={filteredData}
+              pagination
+              highlightOnHover
+              fixedHeader
+              subHeader
+              subHeaderComponent={
+                <input
+                  type="text"
+                  placeholder="Search"
+                  className="w-25 form-control rounded"
+                  value={search}
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                    const serarchedData = allData.filter((item) =>
+                      item.name
+                        .toLowerCase()
+                        .includes(e.target.value.toLowerCase())
+                    );
+                    setFilteredData(serarchedData);
+                  }}
+                />
+              }
+              subHeaderAlign="right"
+              className="bg-black text-white rounded-lg "
+              striped
+            />
+          </div>
+        )
+      ) : (
+        <h5 className="h5">No Requests Found</h5>
       )}
       <Modal
         isOpen={isModalOpen}

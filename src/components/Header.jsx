@@ -13,11 +13,24 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
+import { collection, getDocs, query } from "firebase/firestore";
+import { firestore } from "../context/FirbaseContext";
 
 const Header = () => {
   const router = useRouter();
   const routePath = usePathname();
-  const { setUSER, userLogged, setUserLogged, USER } = useGlobalContext();
+  const {
+    setUSER,
+    userLogged,
+    setUserLogged,
+    USER,
+    userRequestState,
+    setUserRequestState,
+    userReqUpdTime,
+    setUserReqUpdTime,
+    unreadRequests,
+    setUnreadRequests,
+  } = useGlobalContext();
   const { isAdmin } = USER;
   // Access the pathname and query params
   const pathname = router;
@@ -63,7 +76,7 @@ const Header = () => {
       url: isAdmin ? "/photoUpload" : "#",
     },
     {
-      title: isAdmin ? "Requests" : "",
+      title: isAdmin ? `Requests ${unreadRequests}` : "",
       url: isAdmin ? "/requests" : "#",
     },
     {
@@ -91,7 +104,7 @@ const Header = () => {
       url: isAdmin ? "/photoUpload" : "#",
     },
     {
-      title: isAdmin ? "Requests" : "",
+      title: isAdmin ? `Requests ${unreadRequests}` : "",
       url: isAdmin ? "/requests" : "#",
     },
     {
@@ -112,12 +125,21 @@ const Header = () => {
   const getUserDetails = async () => {
     const res = await axios.post("/api/me");
     const userData = res.data;
+    const details = userData.data;
     if (userData.success) {
       const userDetails = userData.data._id;
       if (userDetails) {
         setUserLogged(true);
-        setUSER(userData.data);
+        setUSER(details);
         console.log("userLogged");
+        if (details.isAdmin) {
+          const userTimeDifference =
+            (Date.now() - userReqUpdTime) / 1000 / 60 / 15;
+          if (userTimeDifference >= 1 || userRequestState.length === 0) {
+            getRequestData();
+            setUserReqUpdTime(Date.now());
+          }
+        }
       } else {
         setUserLogged(false);
         console.log("userNotLogged");
@@ -127,7 +149,32 @@ const Header = () => {
       console.log("userNotLogged");
     }
   };
-
+  const getRequestData = async () => {
+    const q = query(collection(firestore, "requests"));
+    const querySnapshot = await getDocs(q);
+    const data = querySnapshot.docs
+      .map((doc) => ({
+        // doc.data() is never undefined for query doc snapshots
+        ...doc.data(),
+        id: doc.id,
+      }))
+      .sort((a, b) => {
+        if (a.date > b.date) return -1;
+        if (a.date < b.date) return 1;
+        return 0;
+      });
+    setUserRequestState(data);
+    setUserReqUpdTime(Date.now());
+    let unread = 0;
+    if (data.length > 0) {
+      data.forEach((item) => {
+        if (item.reply === "") {
+          unread++;
+        }
+      });
+    }
+    setUnreadRequests(unread);
+  };
   const handleClick = () => {
     if (!openNavigation) return;
 

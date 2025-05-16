@@ -2,6 +2,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
 import Header from "../components/Header";
+import SupportChat from "../components/SupportChat";
 import { GlobalContextProvider } from "../context/Store";
 import localFont from "next/font/local";
 
@@ -39,6 +40,7 @@ export default function RootLayout({ children }) {
               pauseOnHover
               theme="light"
             />
+            <SupportChat />
           </GlobalContextProvider>
         </div>
       </body>
