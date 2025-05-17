@@ -11,7 +11,7 @@ const SupportChat = () => {
         <div className="flex items-start justify-center bg-gray-800 rounded-full shadow-lg">
           <button
             onClick={() => router.push("/requests")}
-            className=" text-white rounded-full p-2 shadow-lg hover:bg-blue-600 transition-all duration-200 flex items-center justify-center"
+            className=" text-white rounded-full p-2 shadow-lg hover:bg-green-600 transition-all duration-200 flex items-center justify-center"
           >
             <i className="bi bi-chat text-2xl"></i>
             <span className="text-white p-1 -mt-4">{unreadRequests}</span>

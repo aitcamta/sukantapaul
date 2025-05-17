@@ -282,7 +282,7 @@ export default function Requests() {
         className="text-green-400 hover:text-blue-700"
         onClick={getData}
       >
-        <i class="bi bi-arrow-clockwise h5"></i>
+        <i className="bi bi-arrow-clockwise h5"></i>
         <span className="p-1 -mt-4 h5">Reload</span>
       </button>
       <hr />

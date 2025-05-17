@@ -2,12 +2,12 @@ import ButtonGradient from "../assets/svg/ButtonGradient";
 import Gallery from "../components/Gallery";
 import Description from "../components/Description";
 import Benefits from "../components/Benefits";
-import Collaboration from "../components/Collaboration";
 import Footer from "../components/Footer";
 import Hero from "../components/Hero";
-import Pricing from "../components/Pricing";
-import Roadmap from "../components/Roadmap";
-import Services from "../components/Services";
+// import Collaboration from "../components/Collaboration";
+// import Pricing from "../components/Pricing";
+// import Roadmap from "../components/Roadmap";
+// import Services from "../components/Services";
 
 export default function Home() {
   return (
@@ -17,9 +17,9 @@ export default function Home() {
         <Gallery />
         <Description />
         <Benefits />
-        <Collaboration />
+        {/* <Collaboration />
         <Services />
-        <Roadmap />
+        <Roadmap /> */}
         <Footer />
       </div>
 

@@ -76,7 +76,7 @@ const Header = () => {
       url: isAdmin ? "/photoUpload" : "#",
     },
     {
-      title: isAdmin ? `Requests ${unreadRequests}` : "",
+      title: isAdmin ? `Requests` : "",
       url: isAdmin ? "/requests" : "#",
     },
     {
@@ -104,7 +104,7 @@ const Header = () => {
       url: isAdmin ? "/photoUpload" : "#",
     },
     {
-      title: isAdmin ? `Requests ${unreadRequests}` : "",
+      title: isAdmin ? `Requests` : "",
       url: isAdmin ? "/requests" : "#",
     },
     {
